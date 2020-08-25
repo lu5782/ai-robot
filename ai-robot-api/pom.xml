@@ -3,19 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>parent</artifactId>
         <groupId>com.cyp</groupId>
+        <artifactId>parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ai-robot-api</artifactId>
-
-    <name>ai-robot</name>
+    <version>1.0-SNAPSHOT</version>
     <description>Demo project for Spring Boot</description>
 
     <properties>
+        <project.artifactId>ai-robot-api</project.artifactId>
         <java.version>1.8</java.version>
         <commons.collections4.version>4.2</commons.collections4.version>
         <jsoup.version>1.11.2</jsoup.version>
@@ -88,11 +88,7 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
-        </dependency>
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -161,110 +157,12 @@
     </dependencies>
 
     <build>
-        <finalName>smart-robot</finalName>
-        <pluginManagement>
-            <plugins>
-                <!--解决SpringBoot打包成jar后运行提示没有主清单属性 -->
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <configuration>
-                        <mainClass>com.cyp.robot.AiRobotApplication</mainClass>
-                        <includeSystemScope>true</includeSystemScope>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>build-info</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.3.2</version>
-                    <configuration>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
-                        <encoding>UTF-8</encoding>
-                        <skip>true</skip>
-                    </configuration>
-                </plugin>
-                <!-- 打包jar插件 -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.0.2</version>
-                </plugin>
-                <!-- 生成sources源码包的插件 -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>3.0.1</version>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <!-- 生成javadoc文档包的插件 -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.10.4</version>
-                    <configuration>
-                        <aggregate>true</aggregate>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>attach-javadocs</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.projectlombok</groupId>
-                    <artifactId>lombok-maven-plugin</artifactId>
-                    <configuration>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <phase>generate-sources</phase>
-                            <goals>
-                                <goal>delombok</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <!-- Docker maven plugin -->
-<!--                <plugin>-->
-<!--                    <groupId>com.spotify</groupId>-->
-<!--                    <artifactId>docker-maven-plugin</artifactId>-->
-<!--                    <version>1.2.2</version>-->
-<!--                    <configuration>-->
-<!--                        <imageName>mavendemo</imageName>-->
-<!--                        <dockerDirectory>${basedir}/docker</dockerDirectory> &lt;!&ndash; 指定 Dockerfile 路径&ndash;&gt;-->
-<!--                        &lt;!&ndash; 这里是复制 jar 包到 docker 容器指定目录配置，也可以写到 Docokerfile 中 &ndash;&gt;-->
-<!--                        <resources>-->
-<!--                            <resource>-->
-<!--                                <targetPath>/ROOT</targetPath>-->
-<!--                                <directory>${project.build.directory}</directory>-->
-<!--                                <include>${project.build.finalName}.jar</include>-->
-<!--                            </resource>-->
-<!--                        </resources>-->
-<!--                    </configuration>-->
-<!--                </plugin>-->
-                <!-- Docker maven plugin -->
-            </plugins>
-        </pluginManagement>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 </project>
