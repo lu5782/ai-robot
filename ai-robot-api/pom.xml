@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>com.cyp</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ai-robot-api</artifactId>
+
+    <name>ai-robot</name>
+    <description>Demo project for Spring Boot</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <commons.collections4.version>4.2</commons.collections4.version>
+        <jsoup.version>1.11.2</jsoup.version>
+        <mybatis.spring.boot.starter.version>1.3.2</mybatis.spring.boot.starter.version>
+        <project.artifactId>blsmen</project.artifactId>
+        <!-- Springboot 打包跳过测试 -->
+        <skipTests>true</skipTests>
+        <!-- Docker -->
+        <docker.image.prefix>springboot</docker.image.prefix>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.cyp</groupId>
+            <artifactId>ai-robot-mapper</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
+        <!--jedis-->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>${mybatis.spring.boot.starter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons.collections4.version}</version>
+        </dependency>
+        <!-- Commons -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.45</version>
+        </dependency>
+        <!-- jwt -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.6.0</version>
+        </dependency>
+        <!--  cache -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <!--aspectj-->
+        <dependency>
+            <groupId>aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+
+
+        <!-- 解析Excel文件的jar包 用于2003- 版本的excel -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <!-- 解析Excel文件的jar包 用于2007+ 版本的excel -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+
+        <!-- mina-->
+        <dependency>
+            <groupId>org.apache.mina</groupId>
+            <artifactId>mina-core</artifactId>
+            <version>2.0.13</version>
+        </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>commons-fileupload</groupId>-->
+        <!--            <artifactId>commons-fileupload</artifactId>-->
+        <!--            <version>1.3.1</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+        <!--        </dependency>-->
+
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>smart-robot</finalName>
+        <pluginManagement>
+            <plugins>
+                <!--解决SpringBoot打包成jar后运行提示没有主清单属性 -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <mainClass>com.cyp.robot.AiRobotApplication</mainClass>
+                        <includeSystemScope>true</includeSystemScope>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>build-info</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.3.2</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>UTF-8</encoding>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+                <!-- 打包jar插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <!-- 生成sources源码包的插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.0.1</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- 生成javadoc文档包的插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.4</version>
+                    <configuration>
+                        <aggregate>true</aggregate>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok-maven-plugin</artifactId>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>delombok</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Docker maven plugin -->
+<!--                <plugin>-->
+<!--                    <groupId>com.spotify</groupId>-->
+<!--                    <artifactId>docker-maven-plugin</artifactId>-->
+<!--                    <version>1.2.2</version>-->
+<!--                    <configuration>-->
+<!--                        <imageName>mavendemo</imageName>-->
+<!--                        <dockerDirectory>${basedir}/docker</dockerDirectory> &lt;!&ndash; 指定 Dockerfile 路径&ndash;&gt;-->
+<!--                        &lt;!&ndash; 这里是复制 jar 包到 docker 容器指定目录配置，也可以写到 Docokerfile 中 &ndash;&gt;-->
+<!--                        <resources>-->
+<!--                            <resource>-->
+<!--                                <targetPath>/ROOT</targetPath>-->
+<!--                                <directory>${project.build.directory}</directory>-->
+<!--                                <include>${project.build.finalName}.jar</include>-->
+<!--                            </resource>-->
+<!--                        </resources>-->
+<!--                    </configuration>-->
+<!--                </plugin>-->
+                <!-- Docker maven plugin -->
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
