@@ -1,11 +1,14 @@
 package com.cyp.robot.api.common;
 
 public class Constants {
-
-
+    
     public static final String UPLOAD_PATH = "\\temp\\upload\\";
     public static final String DOWNLOAD_PATH = "\\temp\\download";
     public static final String TEMP_PATH = "\\temp\\temp";
+    public static final int IS_DELETED_0 = 0;
+    public static final int IS_DELETED_1 = 1;
+    public static final String OPT_BY = "SYS";
+
 
     public enum FileType {
         /**

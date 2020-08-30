@@ -3,24 +3,25 @@ package com.cyp.robot.api.auth.controller;
 
 import com.cyp.po.UserInfo;
 import com.cyp.robot.api.auth.service.AuthService;
-import com.cyp.robot.api.common.dto.AuthReq;
 import com.cyp.robot.api.common.dto.ResultDto;
 import com.cyp.robot.utils.JwtUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/auth")
+@Slf4j
 public class AuthController {
 
     @Resource
     private AuthService authService;
 
     @RequestMapping(value = "/token")
-    public ResultDto token(@RequestBody(required = false) AuthReq authReq, HttpServletRequest request, HttpServletResponse response) {
+    public ResultDto<String> token(HttpServletResponse response) {
+        log.info("获取token");
         ResultDto<String> restResult = new ResultDto<>();
         try {
             JwtUtils.createJwt(response);
@@ -33,23 +34,26 @@ public class AuthController {
 
 
     @RequestMapping("/register")
-    public ResultDto register(@RequestBody UserInfo userInfo) {
-
+    public ResultDto<Object> register(@RequestBody UserInfo userInfo) {
+        log.info("注册账号");
         Boolean flag = authService.insert(userInfo);
         if (flag) {
-            return new ResultDto(ResultDto.SUCCESS_CODE, ResultDto.SUCCESS_MESSAGE, null);
+            return new ResultDto<>(ResultDto.SUCCESS_CODE, ResultDto.SUCCESS_MESSAGE, null);
         } else {
-            return new ResultDto(ResultDto.ERROR_CODE, "用户名、邮箱或手机号已经存在", null);
+            return new ResultDto<>(ResultDto.ERROR_CODE, "用户名、邮箱或手机号已经存在", null);
         }
     }
 
     @RequestMapping("/login")
-    public ResultDto login(@RequestBody UserInfo userInfo) {
+    public ResultDto<Object> login(@RequestBody UserInfo userInfo,HttpServletResponse response) {
+        log.info("登录账号");
         Boolean flag = authService.login(userInfo);
         if (flag) {
-            return new ResultDto(ResultDto.SUCCESS_CODE, ResultDto.SUCCESS_MESSAGE, null);
+            log.info("登录成功，返回token");
+            JwtUtils.createJwt(response);
+            return new ResultDto<>(ResultDto.SUCCESS_CODE, ResultDto.SUCCESS_MESSAGE, null);
         } else {
-            return new ResultDto(ResultDto.ERROR_CODE, "用户名、邮箱或手机号已经存在", null);
+            return new ResultDto<>(ResultDto.ERROR_CODE, "用户名或密码错误", null);
         }
     }
 

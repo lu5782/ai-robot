@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<html lang="zh">
+<!--<html lang="en">-->
+<head>
+    <meta charset="UTF-8"/>
+    <title>首页</title>
+    <!--    <script type="text/javascript" src="../libs/jquery-1.11.0.min.js"></script>-->
+    <!--    <script type="text/javascript" src="./libs/jquery-1.11.0.min.js"></script>-->
+</head>
+<body>
+<table style="position: center">
+    <tr>
+        <td><button onclick="uploadImg">图片上传</button></td>
+    </tr>
+    <tr>
+        <td><button onclick="downloadImg">图片下载</button>/td>
+    </tr>
+    <tr>
+        <td><img src="/img/home.jpg"/></td>
+    </tr>
+</table>
+<script>
+    // $(function () {
+    // $("#upload").click(function () {
+    //     alert("123")
+    // }),
+    // })
+    function uploadImg() {
+        console.log("pictureUpload")
+    }
+
+    function downloadImg() {
+        console.log("picDownload")
+    }
+</script>
+
+</body>
+</html>

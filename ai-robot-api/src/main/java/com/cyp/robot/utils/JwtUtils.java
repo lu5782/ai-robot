@@ -77,37 +77,37 @@ public class JwtUtils {
         }
     }
 
-    @Value("${jiuyoujueyu.jwt.issuer}")
+    @Value("${jwt.issuer}")
     public void setIssuer(String issuer) {
         JwtUtils.issuer = issuer;
     }
 
-    @Value("${jiuyoujueyu.jwt.subject}")
+    @Value("${jwt.subject}")
     public void setSubject(String subject) {
         JwtUtils.subject = subject;
     }
 
-    @Value("${jiuyoujueyu.jwt.logOutTime}")
+    @Value("${jwt.logOutTime}")
     public void setExpireTime(String expireTime) {
         JwtUtils.expireTime = expireTime;
     }
 
-    @Value("${jiuyoujueyu.jwt.secretKey}")
+    @Value("${jwt.secretKey}")
     public void setSecretKey(String secretKey) {
         JwtUtils.secretKey = secretKey;
     }
 
-    @Value("${jiuyoujueyu.jwt.cookieName}")
+    @Value("${jwt.cookieName}")
     public void setCookieName(String cookieName) {
         JwtUtils.cookieName = cookieName;
     }
 
-    @Value("${jiuyoujueyu.jwt.dataKey.staffId}")
+    @Value("${jwt.dataKey.staffId}")
     public void setStaffId(String staffId) {
         JwtUtils.staffId = staffId;
     }
 
-    @Value("${jiuyoujueyu.jwt.dataKey.ownerId}")
+    @Value("${jwt.dataKey.ownerId}")
     public void setOwnerId(String ownerId) {
         JwtUtils.ownerId = ownerId;
     }

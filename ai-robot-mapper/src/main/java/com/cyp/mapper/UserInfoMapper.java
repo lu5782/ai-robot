@@ -52,12 +52,12 @@ public interface UserInfoMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="UserInfoResult", value = {
-        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="id", property="id", jdbcType=JdbcType.VARCHAR, id=true),
         @Result(column="username", property="username", jdbcType=JdbcType.VARCHAR),
         @Result(column="password", property="password", jdbcType=JdbcType.VARCHAR),
         @Result(column="phone_num", property="phoneNum", jdbcType=JdbcType.INTEGER),
         @Result(column="email", property="email", jdbcType=JdbcType.VARCHAR),
-        @Result(column="sex", property="sex", jdbcType=JdbcType.INTEGER),
+        @Result(column="sex", property="sex", jdbcType=JdbcType.BIT),
         @Result(column="is_deleted", property="isDeleted", jdbcType=JdbcType.INTEGER),
         @Result(column="created_by", property="createdBy", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_date", property="createdDate", jdbcType=JdbcType.TIMESTAMP),
@@ -82,7 +82,7 @@ public interface UserInfoMapper {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default int deleteByPrimaryKey(Integer id_) {
+    default int deleteByPrimaryKey(String id_) {
         return DeleteDSL.deleteFromWithMapper(this::delete, userInfo)
                 .where(id, isEqualTo(id_))
                 .build()
@@ -140,7 +140,7 @@ public interface UserInfoMapper {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default UserInfo selectByPrimaryKey(Integer id_) {
+    default UserInfo selectByPrimaryKey(String id_) {
         return SelectDSL.selectWithMapper(this::selectOne, id, username, password, phoneNum, email, sex, isDeleted, createdBy, createdDate, updatedBy, updatedDate)
                 .from(userInfo)
                 .where(id, isEqualTo(id_))

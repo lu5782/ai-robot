@@ -11,7 +11,7 @@ public final class UserInfoDynamicSqlSupport {
     public static final UserInfo userInfo = new UserInfo();
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<Integer> id = userInfo.id;
+    public static final SqlColumn<String> id = userInfo.id;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> username = userInfo.username;
@@ -26,7 +26,7 @@ public final class UserInfoDynamicSqlSupport {
     public static final SqlColumn<String> email = userInfo.email;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<Integer> sex = userInfo.sex;
+    public static final SqlColumn<Boolean> sex = userInfo.sex;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Integer> isDeleted = userInfo.isDeleted;
@@ -45,7 +45,7 @@ public final class UserInfoDynamicSqlSupport {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final class UserInfo extends SqlTable {
-        public final SqlColumn<Integer> id = column("id", JDBCType.INTEGER);
+        public final SqlColumn<String> id = column("id", JDBCType.VARCHAR);
 
         public final SqlColumn<String> username = column("username", JDBCType.VARCHAR);
 
@@ -55,7 +55,7 @@ public final class UserInfoDynamicSqlSupport {
 
         public final SqlColumn<String> email = column("email", JDBCType.VARCHAR);
 
-        public final SqlColumn<Integer> sex = column("sex", JDBCType.INTEGER);
+        public final SqlColumn<Boolean> sex = column("sex", JDBCType.BIT);
 
         public final SqlColumn<Integer> isDeleted = column("is_deleted", JDBCType.INTEGER);
 

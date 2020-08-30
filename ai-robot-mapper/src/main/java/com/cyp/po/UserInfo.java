@@ -5,7 +5,7 @@ import javax.annotation.Generated;
 
 public class UserInfo {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Integer id;
+    private String id;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String username;
@@ -20,7 +20,7 @@ public class UserInfo {
     private String email;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Integer sex;
+    private Boolean sex;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private Integer isDeleted;
@@ -38,13 +38,13 @@ public class UserInfo {
     private Date updatedDate;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -88,12 +88,12 @@ public class UserInfo {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public Integer getSex() {
+    public Boolean getSex() {
         return sex;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setSex(Integer sex) {
+    public void setSex(Boolean sex) {
         this.sex = sex;
     }
 

@@ -10,7 +10,7 @@ import java.io.IOException;
 @Component
 public class AuthFilter implements Filter {
 
-    @Value("${jiuyoujueyu.jwt.cookieName}")
+    @Value("${jwt.cookieName}")
     private String cookieName;
 
     @Override
