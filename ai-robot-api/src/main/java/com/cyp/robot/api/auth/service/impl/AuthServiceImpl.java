@@ -27,6 +27,7 @@ public class AuthServiceImpl implements AuthService {
         Boolean isExist = checkIsExist(userInfo);
         if (isExist) return false;
         String id = SnowFlakeUtils.generateId();
+
         userInfo.setId(id);
         userInfo.setIsDeleted(Constants.IS_DELETED_0);
         userInfo.setCreatedBy(Constants.OPT_BY);
