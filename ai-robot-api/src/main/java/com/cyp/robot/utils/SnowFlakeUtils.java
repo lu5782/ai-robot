@@ -158,9 +158,11 @@ public class SnowFlakeUtils {
     public static void main(String[] args) {
         System.out.println("getWorkId() = " + getWorkId());
         System.out.println("getDataCenterId() = " + getDataCenterId());
-        String aLong = generateId();
-        System.out.println("generateId() = " + aLong);
-        System.out.println("aLong.toString().length() = " + aLong.toString().length());
+        for (int i = 0; i < 100; i++) {
+            String s = generateId();
+            System.out.println(generateId());
+
+        }
     }
 
 }
