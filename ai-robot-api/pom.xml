@@ -137,6 +137,18 @@
             <artifactId>mina-core</artifactId>
             <version>2.0.13</version>
         </dependency>
+        <!-- websocket  方式一 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <!-- websocket  方式二 -->
+        <dependency>
+            <groupId>org.java-websocket</groupId>
+            <artifactId>Java-WebSocket</artifactId>
+            <version>1.4.0</version>
+        </dependency>
 
         <!--        <dependency>-->
         <!--            <groupId>commons-fileupload</groupId>-->

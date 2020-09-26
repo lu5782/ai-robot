@@ -45,14 +45,14 @@ public class MinaServerHandler implements IoHandler {
 
     @Override
     public void messageReceived(IoSession ioSession, Object o) throws Exception {
-        log.info("service接受=" + o.toString());
+        log.info("service接受到信息=" + o.toString());
         Thread.sleep(1000);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        ioSession.write(timestamp.toString());
-//        log.info("发送到client message=" + date.toString());
+        String responseMessage = "服务器" + timestamp.toString() + "接受到信息:" + o.toString();
+        ioSession.write(responseMessage);
         MessageHandler.Message message = new MessageHandler.Message();
         message.id = 2;
-        message.message = timestamp.toString();
+        message.message = responseMessage;
         MessageHandler.messageQueue.add(message);
     }
 

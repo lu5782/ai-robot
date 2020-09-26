@@ -13,5 +13,9 @@ public class IndexController {
         return "clock";
     }
 
+    @RequestMapping("/websocket")
+    public String websocket() {
+        return "webSocket";
+    }
 
 }
