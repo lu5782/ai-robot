@@ -20,7 +20,7 @@ public class DownloadController {
 
     @RequestMapping("/download")
     public void download(HttpServletRequest request, HttpServletResponse response) {
-        FileUtils.downloadFromNas(request, response);
+        FileUtils.downloadFile(request, response);
     }
 
 
@@ -29,7 +29,7 @@ public class DownloadController {
         String src = jsonObject.getString("file");
         File srcFile = new File(src);
         String dist = Constants.UPLOAD_PATH + File.separator + srcFile.getName();
-        FileUtils.uploadToNas(src, dist);
+        FileUtils.copyFile(src, dist);
     }
 
 

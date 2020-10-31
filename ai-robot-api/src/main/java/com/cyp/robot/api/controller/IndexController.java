@@ -13,6 +13,11 @@ public class IndexController {
         return "clock";
     }
 
+    @RequestMapping("/nas")
+    public String nas() {
+        return "nas";
+    }
+
     @RequestMapping("/websocket")
     public String websocket() {
         return "webSocket";

@@ -2,9 +2,11 @@ package com.cyp.robot.utils;
 
 
 import com.cyp.robot.api.common.Constants;
+import com.cyp.robot.nas.NasController;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
 
 import javax.servlet.ServletOutputStream;
@@ -21,14 +23,60 @@ import java.util.UUID;
  */
 @Slf4j
 public class FileUtils {
+    public static final String BASE = "C:\\Users\\jun\\Desktop\\nas";
+    public static final String TEMP_DIR = "/temp";
+    public static final String DOMAIN = "http://127.0.0.1:8080";
 
     /**
-     * 文件上传到 nas盘
-     *
-     * @param src
-     * @param dist
+     * 上传文件
      */
-    public static void uploadToNas(String src, String dist) {
+    public static String uploadMultipartFile(MultipartFile fileName, String filePath) {
+        log.info("文件名=" + fileName.getOriginalFilename());
+        log.info("参数名=" + fileName.getName());
+        if (StringUtils.isEmpty(fileName.getOriginalFilename())) {
+            throw new RuntimeException("请选择一个文件");
+        }
+
+        String distFilePath;
+        if (!StringUtils.isEmpty(filePath)) {
+            distFilePath = BASE + File.separator + filePath;
+        } else {
+            distFilePath = BASE + File.separator + TEMP_DIR;
+        }
+        String distFileName = distFilePath + File.separator + fileName.getOriginalFilename();
+        File file = new File(distFileName);
+        File parentFile = file.getParentFile();
+        if (!parentFile.exists()) {
+            parentFile.mkdirs();
+        }
+
+
+        InputStream is = null;
+        FileOutputStream fos = null;
+        try {
+            is = fileName.getInputStream();
+            fos = new FileOutputStream(distFileName);
+            byte[] buffer = new byte[1024 * 8];
+            int i = 0;
+            while ((i = is.read(buffer)) != -1) {
+                fos.write(buffer, 0, i);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(is);
+            IOUtils.closeQuietly(fos);
+        }
+        String url = DOMAIN + "/nas/download?file=" + fileName.getOriginalFilename();
+        return url;
+    }
+
+    /**
+     * 复制文件
+     */
+    public static void copyFile(String src, String dist) {
         long beginTime = System.currentTimeMillis();
         FileInputStream fis = null;
         FileOutputStream fos = null;
@@ -73,19 +121,17 @@ public class FileUtils {
     }
 
     /**
-     * 从nas盘 下载文件
-     *
-     * @param request
-     * @param response
+     * 下载文件
      */
-    public static void downloadFromNas(HttpServletRequest request, HttpServletResponse response) {
+    public static void downloadFile(HttpServletRequest request, HttpServletResponse response) {
         DataInputStream in = null;
         ServletOutputStream out = null;
         try {
+            String requestURL = request.getRequestURL().toString();
             String file = request.getParameter("file");
-            if (!file.startsWith("http")) {
-                file="C:\\JAVA\\download\\"+file;
-            }
+//            if (!requestURL.startsWith("http")) {
+            file = NasController.BASE + File.separator + NasController.TEMP_DIR + File.separator + file;
+//            }
             String suffix = getFileType(file);
             if (suffix == null) {
                 log.info("文件编码错误.....................");

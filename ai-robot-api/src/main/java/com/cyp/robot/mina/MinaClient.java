@@ -20,7 +20,7 @@ import java.util.Scanner;
 @Slf4j
 public class MinaClient {
     private static final String DOMAIN = "127.0.0.1";
-    private static final int PORT = 9123;
+    private static final int PORT = 8888;
     static NioSocketConnector connector;
     static IoSession session;
 

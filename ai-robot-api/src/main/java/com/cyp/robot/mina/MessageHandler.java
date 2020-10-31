@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Created by Jun on 2020/8/5 21:29.
  */
 @Slf4j
-@Component
+//@Component
 public class MessageHandler {
 
     //    public static LinkedList<Message> messageQueue = new LinkedList<>();
@@ -23,10 +23,8 @@ public class MessageHandler {
     public void init() {
         log.info("MessageHandler init");
         MinaServer.connect();
-        MinaClient.connect();
-
+//        MinaClient.connect();
 //        new Thread(MessageHandler::handleMessage).start();
-
 //        Scanner sc = new Scanner(System.in);
 //        while (true) {
 //            System.out.println("请输入：");
