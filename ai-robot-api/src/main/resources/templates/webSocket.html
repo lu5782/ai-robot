@@ -25,19 +25,26 @@ Welcome
         alert('当前浏览器 Not support websocket')
     }
 
+    let message = {
+        nickname: "benben_2015",
+        email: "123456@qq.com",
+        content: "I love programming"
+    };
 
     //开启WebSocket连接
     function openWebSocket() {
-        websocket = new WebSocket("ws://localhost:8080/websocket/1");
+        websocket = new WebSocket("ws://127.0.0.1:8888");
+        console.log(websocket)
+
         // websocket.onopen = function () {
+        //     console.log(1111 + event)
         //     // Web Socket 已连接上，使用 send() 方法发送数据
         //     websocket.send("建立连接时发送数据");
         // };
         //连接发生错误的回调方法
         websocket.onerror = function (res) {
+            console.log(res);
             setMessageInnerHTML("WebSocket连接发生错误");
-            setMessageInnerHTML(JSON.stringify(res));
-            setMessageInnerHTML(JSON.stringify(websocket));
         };
 
         //连接成功建立的回调方法
@@ -68,7 +75,6 @@ Welcome
             document.getElementById('message').innerHTML += innerHTML + '<br/>';
         }
 
-        console.log(websocket)
     }
 
     //关闭WebSocket连接
@@ -83,7 +89,7 @@ Welcome
         window.setInterval(function () {
             // websocket.send(arr[Math.floor(Math.random()*4)]);
         }, 5000);
-        websocket.send(message);
+        websocket.send(JSON.stringify(message));
     }
 </script>
 </html>

@@ -1,4 +1,4 @@
-package com.cyp.robot.mina;
+package com.cyp.robot.socket;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * WebSocket连接
  * sessionKey是url中的参数
  */
-@Component
-@ServerEndpoint("/websocket/{sessionKey}")
+//@Component
+//@ServerEndpoint("/websocket/{sessionKey}")
 @Slf4j
 public class MyWebSocket01 {
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。

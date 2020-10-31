@@ -1,4 +1,4 @@
-package com.cyp.robot.mina;
+package com.cyp.robot.socket;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
@@ -13,11 +13,14 @@ import java.net.InetSocketAddress;
  */
 //@Component
 public class MyWebSocket02 {
-
+    private static final String DOMAIN = "127.0.0.1";
+    private static final int PORT = 8080;
 
     @PostConstruct
     public void init() {
-        WebSocketServer socket = new WebSocketServer(new InetSocketAddress(8888)) {
+        InetSocketAddress inetSocketAddress = new InetSocketAddress(DOMAIN, PORT);
+
+        WebSocketServer socket = new WebSocketServer(inetSocketAddress) {
             @Override
             public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
                 System.out.println("onOpen ===" + webSocket.getRemoteSocketAddress().getAddress().getHostAddress());
