@@ -11,7 +11,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 /**
  * Created by Jun on 2020/10/26 21:46.
  */
-public class NettyClient {
+public class TestNettyClient {
     public static void main(String[] args) throws Exception {
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
 
