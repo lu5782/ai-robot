@@ -11,11 +11,13 @@ import java.util.UUID;
  */
 public class NettyClientHandler extends SimpleChannelInboundHandler<String> {
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, String s) throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {
         //服务端的远程地址
-        System.out.println(ctx.channel().remoteAddress());
-        System.out.println("client output: " + s);
-        ctx.writeAndFlush("from client: " + LocalDateTime.now());
+        System.out.println("服务端的远程地址= " + channelHandlerContext.channel().remoteAddress());
+        System.out.println("接收到服务端消息= " + s);
+        Thread.sleep(1000);
+        channelHandlerContext.writeAndFlush("from client : " + LocalDateTime.now());
+        System.out.println("");
     }
 
     /**

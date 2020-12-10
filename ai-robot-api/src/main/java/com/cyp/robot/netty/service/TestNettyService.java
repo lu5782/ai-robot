@@ -9,7 +9,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 /**
  * Created by Jun on 2020/10/26 21:46.
  */
-public class NettyService {
+public class TestNettyService {
     public static void main(String[] args) throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup wokreGroup = new NioEventLoopGroup();

@@ -12,8 +12,10 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {
         //打印出客户端地址
-        System.out.println(channelHandlerContext.channel().remoteAddress() + ", " + s);
-        channelHandlerContext.channel().writeAndFlush("form server: " + UUID.randomUUID());
+        System.out.println("客户端地址= " + channelHandlerContext.channel().remoteAddress());
+        System.out.println("接收到客户端消息= " + s);
+        channelHandlerContext.channel().writeAndFlush("form server : " + UUID.randomUUID());
+        System.out.println("");
     }
 
     @Override

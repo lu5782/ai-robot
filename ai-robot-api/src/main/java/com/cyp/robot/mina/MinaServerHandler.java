@@ -1,15 +1,11 @@
 package com.cyp.robot.mina;
 
-import com.cyp.robot.mina.MessageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.mina.core.service.IoHandler;
-import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 
-import java.security.MessageDigest;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * Created by Jun on 2020/8/2 10:05.
@@ -53,11 +49,6 @@ public class MinaServerHandler implements IoHandler {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String responseMessage = "服务器" + timestamp.toString() + "接受到信息:" + o.toString();
         ioSession.write(responseMessage);
-
-//        MessageHandler.Message message = new MessageHandler.Message();
-//        message.id = 2;
-//        message.message = responseMessage;
-//        MessageHandler.messageQueue.add(message);
     }
 
     @Override

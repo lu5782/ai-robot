@@ -51,10 +51,6 @@ public class MinaClient {
 
 
     public static void sendMsg2Service(String message) {
-        MessageHandler.Message message1 = new MessageHandler.Message();
-        message1.id = (2);
-        message1.message = (message);
-//        MessageHandler.messageQueue.add(message1);
         session.write(message);
     }
 

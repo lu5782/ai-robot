@@ -46,8 +46,6 @@ public class MinaClientHandler implements IoHandler {
     @Override
     public void messageReceived(IoSession ioSession, Object o) throws Exception {
         System.out.println("client接受信息=" + o.toString());
-        MessageHandler.Message message = new MessageHandler.Message();
-        message.message = o.toString();
 //        MessageHandler.messageQueue.add(message);
 //        if (str.trim().equalsIgnoreCase("quit")) {
 //            ioSession.close();

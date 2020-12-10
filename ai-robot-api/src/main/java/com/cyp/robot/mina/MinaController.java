@@ -19,25 +19,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class MinaController {
 
-    @RequestMapping("/send")
-    public String test(@RequestParam("w") String question) {
-        MinaClient.sendMsg2Service(question);
-        try {
-            MessageHandler.Message poll = null;
-            while (poll == null) {
-                log.info("message队列数量=" + MessageHandler.messageQueue.size());
-                poll = MessageHandler.messageQueue.poll(1000, TimeUnit.MILLISECONDS);
-            }
-            String message = poll.message;
-            if (!StringUtils.isEmpty(message)) {
-                return message;
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return "服务器挂了";
-    }
-
 
     @RequestMapping("/client/restart")
     public void restart() {
@@ -69,8 +50,10 @@ public class MinaController {
     }
 
 
-    @PostConstruct
-    public void init() {
-        MinaServer.connect();
-    }
+//    @PostConstruct
+//    public void init() {
+//        MinaServer.connect();
+//    }
+
+
 }
