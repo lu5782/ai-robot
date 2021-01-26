@@ -14,8 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Jun on 2020/9/19 21:14.
- * WebSocket连接
- * sessionKey是url中的参数
  */
 //@Component
 //@ServerEndpoint("/websocket/{sessionKey}")

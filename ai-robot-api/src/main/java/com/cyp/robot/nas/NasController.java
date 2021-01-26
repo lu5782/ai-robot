@@ -34,7 +34,7 @@ public class NasController {
      * @param filePath
      */
     @RequestMapping("/upload")
-    private List<String> upload(@RequestParam("fileName") MultipartFile[] fileName, @RequestParam(value = "filePath", required = false) String filePath) {
+    private List<String> upload(@RequestParam("fileName") MultipartFile[] fileName, @RequestParam(required = false) String filePath) {
         log.info("批量上传文件数量=" + fileName.length);
         List<String> list = new ArrayList<>();
         for (MultipartFile multipartFile : fileName) {
@@ -43,7 +43,6 @@ public class NasController {
         }
         return list;
     }
-
 
 
     @RequestMapping("/download")

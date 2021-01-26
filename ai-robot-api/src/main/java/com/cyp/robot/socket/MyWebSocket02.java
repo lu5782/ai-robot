@@ -11,10 +11,10 @@ import java.net.InetSocketAddress;
 /**
  * Created by Jun on 2020/9/19 16:21.
  */
-//@Component
+@Component
 public class MyWebSocket02 {
     private static final String DOMAIN = "127.0.0.1";
-    private static final int PORT = 8080;
+    private static final int PORT = 8888;
 
     @PostConstruct
     public void init() {
@@ -49,7 +49,7 @@ public class MyWebSocket02 {
             }
         };
         socket.start();
-        System.out.println("websocket 启动成功....................");
+        System.out.println("websocket启动成功....................");
     }
 
 

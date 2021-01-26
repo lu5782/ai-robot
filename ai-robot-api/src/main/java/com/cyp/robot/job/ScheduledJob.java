@@ -18,15 +18,15 @@ import java.time.format.DateTimeFormatter;
  */
 @Component
 @Slf4j
-public class FileJob {
+public class ScheduledJob {
 
     private static String rootDir = "/monitor_video/";
-    private static String srcFile = "C:\\Users\\jun\\Desktop\\08-springcloud\\2-京淘单点登录业务.png";
+    private static String srcFile = "C:\\Users\\jun\\Desktop\\项目\\图片\\001.jpg";
 
 
     @Scheduled(cron = "0 0/1 * * * ? ")
     public void get() {
-        log.info("定时任务开始");
+        log.info("FileJob定时任务开始");
         mkDir(srcFile);
     }
 
