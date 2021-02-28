@@ -35,7 +35,7 @@ public class NettyClientInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new NettyClientHandler());
     }
 
-    @PostConstruct
+//    @PostConstruct
     private void init() {
         new Thread(() -> {
             EventLoopGroup eventLoopGroup = new NioEventLoopGroup();

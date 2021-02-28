@@ -11,7 +11,7 @@ import java.net.InetSocketAddress;
 /**
  * Created by Jun on 2020/9/19 16:21.
  */
-@Component
+//@Component
 public class MyWebSocket02 {
     private static final String DOMAIN = "127.0.0.1";
     private static final int PORT = 8888;

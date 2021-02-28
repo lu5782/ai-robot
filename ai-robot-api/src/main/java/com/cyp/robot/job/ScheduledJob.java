@@ -3,6 +3,7 @@ package com.cyp.robot.job;
 import lombok.extern.slf4j.Slf4j;
 
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -20,8 +21,8 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class ScheduledJob {
 
-    private static String rootDir = "/monitor_video/";
-    private static String srcFile = "C:\\Users\\jun\\Desktop\\项目\\图片\\001.jpg";
+    private static String rootDir = "C:\\Users\\jun\\Desktop\\TEMP";
+    private static String srcFile = "C:\\Users\\jun\\Desktop\\项目\\图片\\ymgvlk.jpg";
 
 
     @Scheduled(cron = "0 0/1 * * * ? ")
@@ -40,8 +41,8 @@ public class ScheduledJob {
         if (!parentFile.exists()) {
             parentFile.mkdirs();
         }
-        FileOutputStream fos = null;
         FileInputStream fis = null;
+        FileOutputStream fos = null;
         try {
             fis = new FileInputStream(srcFile);
             fos = new FileOutputStream(distFile);
@@ -49,10 +50,11 @@ public class ScheduledJob {
             FileChannel fosChannel = fos.getChannel();
             long size = fisChannel.size();
             fosChannel.transferFrom(fisChannel, 0, size);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            IOUtils.closeQuietly(fis);
+            IOUtils.closeQuietly(fos);
         }
 
 
