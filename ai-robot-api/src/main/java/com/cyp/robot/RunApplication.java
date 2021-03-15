@@ -16,10 +16,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("com.cyp.mapper")
 @EnableAsync
 @EnableFeignClients
-public class AiRobotApplication {
+public class RunApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AiRobotApplication.class, args);
+        SpringApplication.run(RunApplication.class, args);
     }
 
 
