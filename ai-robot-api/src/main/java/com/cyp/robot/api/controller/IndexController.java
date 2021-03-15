@@ -32,6 +32,6 @@ public class IndexController {
     @RequestMapping("/test")
     @ResponseBody
     private void test() {
-        log.info("====================================================");
+        log.info("=====================   ================");
     }
 }
