@@ -1,6 +1,5 @@
-package com.cyp.robot.mina;
+package com.cyp.robot.nio.mina;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;

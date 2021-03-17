@@ -1,4 +1,4 @@
-package com.cyp.robot.ribbon;
+package com.cyp.robot.api.springcloud.ribbon;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

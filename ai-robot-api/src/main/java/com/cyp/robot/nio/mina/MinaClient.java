@@ -1,4 +1,4 @@
-package com.cyp.robot.mina;
+package com.cyp.robot.nio.mina;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
@@ -12,7 +12,6 @@ import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
-import java.util.Scanner;
 
 /**
  * Created by Jun on 2020/8/2 9:48.

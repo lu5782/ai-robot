@@ -1,10 +1,9 @@
-package com.cyp.robot.netty.client;
+package com.cyp.robot.nio.netty.client;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * Created by Jun on 2020/10/26 21:48.

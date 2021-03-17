@@ -1,14 +1,28 @@
 package com.cyp.robot.api.common;
 
 public class Constants {
-    
-    public static final String UPLOAD_PATH = "\\temp\\upload\\";
-    public static final String DOWNLOAD_PATH = "\\temp\\download";
-    public static final String TEMP_PATH = "\\temp\\temp";
+
+
+    public static final String POINT = ".";
+    //文件根目录
+    public static final String ROOT_DIR = "C:\\Users\\jun\\Desktop\\nas";
+    public static final String TEMP_DIR = "/temp";
+    public static final String UPLOAD_PATH = "/temp/upload";
+    public static final String DOWNLOAD_PATH = "/temp/download";
+    public static final String TEMP_PATH = "/temp/temp";
+
+    //数据状态  0：有效， 1：无效
     public static final int IS_DELETED_0 = 0;
     public static final int IS_DELETED_1 = 1;
     public static final String OPT_BY = "SYS";
 
+    //excel
+    public static final String EXCEL_2003_SUFFIX = "xls";
+    public static final String EXCEL_2007_SUFFIX = "xlsx";
+    public static final int EXCEL_SHEET_MAX_ROW_NUM = 100;
+
+    //本服务器ip地址
+    public static final String DOMAIN = "http://127.0.0.1:8080";
 
     public enum FileType {
         /**

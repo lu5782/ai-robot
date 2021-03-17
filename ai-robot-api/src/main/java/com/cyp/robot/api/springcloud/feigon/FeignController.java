@@ -1,8 +1,10 @@
-package com.cyp.robot.feigon;
+package com.cyp.robot.api.springcloud.feigon;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * Created by Jun on 2020/3/9 17:55.
@@ -10,29 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FeignController {
 
-    @Autowired
+    @Resource
     private StudentService studentService;
 
     @RequestMapping("/feign")
     public String getAllStudent() {
         String allStudent = studentService.hello();
-        System.out.println("allStudent="+allStudent);
+        System.out.println("allStudent=" + allStudent);
         return allStudent;
     }
 
-    static{
-        i = 20;
-        //这里的i， 是不能被用作运算的， 因为本质上 i 还未被定义
-    }
-
-    public static int i = 1;
-
-    static{
-        i = 23;
-    }
 
     @RequestMapping("/offLine")
-    public String offLine(){
+    public String offLine() {
         studentService.offLine();
         return "eureka offLine success";
     }

@@ -3,13 +3,13 @@ package com.cyp.robot.job;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.TriggerContext;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Date;
 
 /**
@@ -20,29 +20,58 @@ import java.util.Date;
 public class SchedulingJob implements SchedulingConfigurer {
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-//        taskRegistrar.addTriggerTask(getRunnable(), getTrigger());
+        for (JobDetail jobDetail : JobDetail.values()) {
+
+            taskRegistrar.addTriggerTask(getRunnable(jobDetail.clazz, jobDetail.methodName), getTrigger(jobDetail.cron));
+
+        }
     }
 
-    private Runnable getRunnable() {
-        Runnable runnable = new Runnable() {
+    private Runnable getRunnable(Class<?> clazz, String methodName) {
+        return new Runnable() {
             @Override
             public void run() {
-                log.info("SchedulingJob当前时间=" + new Timestamp(System.currentTimeMillis()).toString());
+                try {
+                    Method declaredMethod = clazz.getDeclaredMethod(methodName);
+                    Object invoke = declaredMethod.invoke(clazz.newInstance());
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }
         };
-        return runnable;
     }
 
-    private Trigger getTrigger() {
-        Trigger trigger = new Trigger() {
+    private Trigger getTrigger(String cron) {
+        return new Trigger() {
             @Override
             public Date nextExecutionTime(TriggerContext triggerContext) {
-                CronTrigger cronTrigger = new CronTrigger("0/10 * * * * ?");
-                Date date = cronTrigger.nextExecutionTime(triggerContext);
-                return date;
+                CronTrigger cronTrigger = new CronTrigger(cron);
+                return cronTrigger.nextExecutionTime(triggerContext);
             }
         };
-        return trigger;
+    }
+
+    enum JobDetail {
+        test(JobHandler.class, "test", "0 0/1 * * * ?", "test"),
+        mkdir(JobHandler.class, "mkdir", "0 0/1 * * * ?", "复制文件"),
+        ;
+        Class<?> clazz;
+        String methodName;
+        String cron;
+        String desc;
+
+        JobDetail(Class<?> clazz, String methodName, String cron, String desc) {
+            this.clazz = clazz;
+            this.methodName = methodName;
+            this.cron = cron;
+            this.desc = desc;
+        }
     }
 
 }

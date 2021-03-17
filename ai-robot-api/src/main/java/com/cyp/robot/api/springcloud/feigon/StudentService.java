@@ -1,4 +1,4 @@
-package com.cyp.robot.feigon;
+package com.cyp.robot.api.springcloud.feigon;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;

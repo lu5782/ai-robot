@@ -1,5 +1,6 @@
 package com.cyp.robot.utils;
 
+import com.cyp.robot.api.common.Constants;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -18,17 +19,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class ExcelUtils {
-    //服务器文件存储位置
-    private static String baseUrl = "127.0.0.1:8080";
-    private static String uploadPath = "\\temp\\upload";
-    private static String downloadPath = "\\temp\\download";
-    private static int maxRowNum = 100;
-    private static final String point = ".";
-    private static final String excel_2003_suffix = "xls";
-    private static final String excel_2007_suffix = "xlsx";
 
 
     public static String exportExcel(Object data) {
+        int maxRowNum = Constants.EXCEL_SHEET_MAX_ROW_NUM;
         List<Object> dataList = null;
         if (data instanceof List) {
             dataList = (List<Object>) data;
@@ -46,10 +40,10 @@ public class ExcelUtils {
         boolean isExcel2003 = false;
         if (isExcel2003) {
             workBook = new HSSFWorkbook();
-            suffix = excel_2003_suffix;
+            suffix = Constants.EXCEL_2003_SUFFIX;
         } else {
             workBook = new XSSFWorkbook();
-            suffix = excel_2007_suffix;
+            suffix = Constants.EXCEL_2007_SUFFIX;
         }
 
 
@@ -65,7 +59,7 @@ public class ExcelUtils {
             createSheet(workBook.createSheet(), newList);
         }
 
-        String fileName = uploadPath + File.separator + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + point + suffix;
+        String fileName = Constants.UPLOAD_PATH + File.separator + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + Constants.POINT + suffix;
         File file = new File(fileName);
         File parentFile = file.getParentFile();
         if (!parentFile.exists()) {

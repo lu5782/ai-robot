@@ -1,4 +1,4 @@
-package com.cyp.robot.nas;
+package com.cyp.robot.api.controller;
 
 import com.cyp.robot.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -16,16 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Jun on 2020/10/29 22:23.
+ * @Author      :   Jun
+ * @Date        :   2020/10/29 22:23
+ * @Description :   TODO
  */
 @Slf4j
 @RestController
 @RequestMapping("/nas")
 public class NasController {
 
-    public static final String BASE = "C:\\Users\\jun\\Desktop\\nas";
-    public static final String TEMP_DIR = "/temp";
-    public static final String DOMAIN = "http://127.0.0.1:8080";
 
     /**
      * 文件限制大小不超过 10M

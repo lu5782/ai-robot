@@ -1,4 +1,4 @@
-package com.cyp.robot.netty.service;
+package com.cyp.robot.nio.netty.service;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

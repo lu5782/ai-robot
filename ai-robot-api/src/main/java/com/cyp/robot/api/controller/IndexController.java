@@ -29,9 +29,5 @@ public class IndexController {
         return "webSocket02";
     }
 
-    @RequestMapping("/test")
-    @ResponseBody
-    private void test() {
-        log.info("=====================   ================");
-    }
+
 }

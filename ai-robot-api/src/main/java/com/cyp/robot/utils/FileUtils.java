@@ -2,7 +2,6 @@ package com.cyp.robot.utils;
 
 
 import com.cyp.robot.api.common.Constants;
-import com.cyp.robot.nas.NasController;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,9 +22,6 @@ import java.util.UUID;
  */
 @Slf4j
 public class FileUtils {
-    public static final String BASE = "C:\\Users\\jun\\Desktop\\nas";
-    public static final String TEMP_DIR = "/temp";
-    public static final String DOMAIN = "http://127.0.0.1:8080";
 
     /**
      * 上传文件
@@ -39,9 +35,9 @@ public class FileUtils {
 
         String distFilePath;
         if (!StringUtils.isEmpty(filePath)) {
-            distFilePath = BASE + File.separator + filePath;
+            distFilePath = Constants.ROOT_DIR + File.separator + filePath;
         } else {
-            distFilePath = BASE + File.separator + TEMP_DIR;
+            distFilePath = Constants.ROOT_DIR + File.separator + Constants.TEMP_DIR;
         }
         String distFileName = distFilePath + File.separator + fileName.getOriginalFilename();
         File file = new File(distFileName);
@@ -69,7 +65,7 @@ public class FileUtils {
             IOUtils.closeQuietly(is);
             IOUtils.closeQuietly(fos);
         }
-        String url = DOMAIN + "/nas/download?file=" + fileName.getOriginalFilename();
+        String url = Constants.DOMAIN + "/nas/download?file=" + fileName.getOriginalFilename();
         return url;
     }
 
@@ -130,7 +126,7 @@ public class FileUtils {
             String requestURL = request.getRequestURL().toString();
             String file = request.getParameter("file");
 //            if (!requestURL.startsWith("http")) {
-            file = NasController.BASE + File.separator + NasController.TEMP_DIR + File.separator + file;
+            file = Constants.ROOT_DIR + File.separator + Constants.TEMP_DIR + File.separator + file;
 //            }
             String suffix = getFileType(file);
             if (suffix == null) {
@@ -163,7 +159,7 @@ public class FileUtils {
     }
 
     /**
-     * 设置文件名编码
+     * 判断文件名编码
      */
     public static String getFileName(HttpServletRequest request) throws UnsupportedEncodingException {
         String fileName = request.getParameter("fileName");
