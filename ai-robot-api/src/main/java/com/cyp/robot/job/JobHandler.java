@@ -1,5 +1,6 @@
 package com.cyp.robot.job;
 
+import com.cyp.robot.api.common.Constants;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -17,9 +18,6 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class JobHandler {
 
-    private static String rootDir = "C:\\Users\\blsm\\Desktop\\TEMP";
-    private static String srcFile = "C:\\Users\\blsm\\Desktop\\项目笔记\\图片\\ymgvlk.jpg";
-
 
     public void test() {
         log.info("===============test===================");
@@ -28,13 +26,13 @@ public class JobHandler {
 
     public void mkdir() {
         log.info("===============mkdir===================");
-        mkDir(srcFile);
+        mkDir(Constants.PICTURE_SOURCE);
     }
 
 
     public static void mkDir(String srcFile) {
         String suffix = srcFile.substring(srcFile.lastIndexOf("."));
-        String distFile = rootDir + File.separator + getDateString("yyyyMMdd") + File.separator + getDateString("HHmmssSSS") + suffix;
+        String distFile = Constants.TEMP_DIR + File.separator + getDateString("yyyyMMdd") + File.separator + getDateString("HHmmssSSS") + suffix;
         File file = new File(distFile);
         File parentFile = file.getParentFile();
         if (!parentFile.exists()) {

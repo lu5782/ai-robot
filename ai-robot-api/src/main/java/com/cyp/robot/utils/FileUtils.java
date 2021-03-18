@@ -65,7 +65,7 @@ public class FileUtils {
             IOUtils.closeQuietly(is);
             IOUtils.closeQuietly(fos);
         }
-        String url = Constants.DOMAIN + "/nas/download?file=" + fileName.getOriginalFilename();
+        String url = Constants.LOCAL_ADDRESS + "/nas/download?file=" + fileName.getOriginalFilename();
         return url;
     }
 

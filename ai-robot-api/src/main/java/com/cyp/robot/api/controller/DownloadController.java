@@ -33,7 +33,7 @@ public class DownloadController {
     public void upload(@RequestBody JSONObject jsonObject) {
         String src = jsonObject.getString("file");
         File srcFile = new File(src);
-        String dist = Constants.UPLOAD_PATH + File.separator + srcFile.getName();
+        String dist = Constants.UPLOAD_DIR + File.separator + srcFile.getName();
         FileUtils.copyFile(src, dist);
     }
 

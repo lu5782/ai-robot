@@ -59,7 +59,7 @@ public class ExcelUtils {
             createSheet(workBook.createSheet(), newList);
         }
 
-        String fileName = Constants.UPLOAD_PATH + File.separator + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + Constants.POINT + suffix;
+        String fileName = Constants.UPLOAD_DIR + File.separator + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + Constants.POINT + suffix;
         File file = new File(fileName);
         File parentFile = file.getParentFile();
         if (!parentFile.exists()) {

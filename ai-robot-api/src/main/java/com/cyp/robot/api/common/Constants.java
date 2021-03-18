@@ -5,11 +5,11 @@ public class Constants {
 
     public static final String POINT = ".";
     //文件根目录
-    public static final String ROOT_DIR = "C:\\Users\\jun\\Desktop\\nas";
-    public static final String TEMP_DIR = "/temp";
-    public static final String UPLOAD_PATH = "/temp/upload";
-    public static final String DOWNLOAD_PATH = "/temp/download";
-    public static final String TEMP_PATH = "/temp/temp";
+    public static final String ROOT_DIR = "C:/我的文件/笔记";
+    public static final String TEMP_DIR = ROOT_DIR + "/temp";
+    public static final String UPLOAD_DIR = ROOT_DIR + "/upload";
+    public static final String DOWNLOAD_DIR = ROOT_DIR + "/download";
+    public static final String PICTURE_SOURCE = ROOT_DIR + "/picture/png-001.png";
 
     //数据状态  0：有效， 1：无效
     public static final int IS_DELETED_0 = 0;
@@ -22,7 +22,7 @@ public class Constants {
     public static final int EXCEL_SHEET_MAX_ROW_NUM = 100;
 
     //本服务器ip地址
-    public static final String DOMAIN = "http://127.0.0.1:8080";
+    public static final String LOCAL_ADDRESS = "http://127.0.0.1:8080";
 
     public enum FileType {
         /**
