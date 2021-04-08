@@ -8,7 +8,7 @@ import org.apache.mina.core.session.IoSession;
 import java.sql.Timestamp;
 
 /**
- * Created by Jun on 2020/8/2 10:05.
+ * Created by luyijun on 2020/8/2 10:05.
  */
 @Slf4j
 public class MinaServerHandler implements IoHandler {

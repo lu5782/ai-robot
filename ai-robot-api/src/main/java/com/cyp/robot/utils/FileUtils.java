@@ -18,7 +18,7 @@ import java.nio.channels.FileChannel;
 import java.util.UUID;
 
 /**
- * Created by Jun on 2020/6/30 23:35.
+ * Created by luyijun on 2020/6/30 23:35.
  */
 @Slf4j
 public class FileUtils {

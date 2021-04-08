@@ -8,7 +8,7 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
 /**
- * Created by Jun on 2020/8/15 10:34.
+ * Created by luyijun on 2020/8/15 10:34.
  */
 public class SnowFlakeUtils {
 

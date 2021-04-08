@@ -6,7 +6,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import java.time.LocalDateTime;
 
 /**
- * Created by Jun on 2020/10/26 21:48.
+ * Created by luyijun on 2020/10/26 21:48.
  */
 public class NettyClientHandler extends SimpleChannelInboundHandler<String> {
     @Override

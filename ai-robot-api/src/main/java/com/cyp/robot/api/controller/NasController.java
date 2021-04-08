@@ -16,15 +16,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Author      :   Jun
- * @Date        :   2020/10/29 22:23
- * @Description :   TODO
+ * @Author :        luyijun
+ * @Date :          2020/10/29 22:23
+ * @Description :   NAS盘
  */
 @Slf4j
 @RestController
 @RequestMapping("/nas")
 public class NasController {
 
+
+    @RequestMapping("/uploadFile")
+    private List<String> uploadFile(@RequestParam("fileName") MultipartFile fileName, @RequestParam(required = false) String filePath) {
+        List<String> list = new ArrayList<>();
+        String upload = FileUtils.uploadMultipartFile(fileName, filePath);
+        list.add(upload);
+        return list;
+    }
 
     /**
      * 文件限制大小不超过 10M

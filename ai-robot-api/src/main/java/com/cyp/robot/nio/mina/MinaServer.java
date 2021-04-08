@@ -14,7 +14,7 @@ import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Created by Jun on 2020/8/2 10:03.
+ * Created by luyijun on 2020/8/2 10:03.
  */
 @Slf4j
 public class MinaServer {

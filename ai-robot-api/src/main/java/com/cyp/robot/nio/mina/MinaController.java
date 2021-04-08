@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by Jun on 2020/8/4 22:57.
+ * Created by luyijun on 2020/8/4 22:57.
  */
 @RestController
 @RequestMapping("/mina")

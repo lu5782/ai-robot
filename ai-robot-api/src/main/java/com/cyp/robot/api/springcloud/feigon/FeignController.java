@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 /**
- * Created by Jun on 2020/3/9 17:55.
+ * Created by luyijun on 2020/3/9 17:55.
  */
 @RestController
 public class FeignController {

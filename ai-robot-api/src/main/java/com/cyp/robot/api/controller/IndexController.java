@@ -5,6 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * @Author :        luyijun
+ * @Date :          2020/10/29 22:23
+ * @Description :   首页
+ */
 @Slf4j
 @Controller
 public class IndexController {

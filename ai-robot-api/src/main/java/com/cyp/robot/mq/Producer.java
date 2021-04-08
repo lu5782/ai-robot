@@ -5,7 +5,7 @@ import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 
 /**
- * Created by Jun on 2021/2/23 22:22.
+ * Created by luyijun on 2021/2/23 22:22.
  */
 public class Producer {
     public static void main(String[] args) {

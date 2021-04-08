@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Created by Jun on 2020/3/9 11:16.
+ * Created by luyijun on 2020/3/9 11:16.
  */
 @Configuration
 public class RibbonConfig {

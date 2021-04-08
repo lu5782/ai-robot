@@ -6,7 +6,7 @@ public class Constants {
     public static final String POINT = ".";
     //文件根目录
     public static final String ROOT_DIR = "C:/我的文件/笔记";
-    public static final String TEMP_DIR = ROOT_DIR + "/temp";
+    public static final String TEMP_DIR = "/temp";
     public static final String UPLOAD_DIR = ROOT_DIR + "/upload";
     public static final String DOWNLOAD_DIR = ROOT_DIR + "/download";
     public static final String PICTURE_SOURCE = ROOT_DIR + "/picture/png-001.png";

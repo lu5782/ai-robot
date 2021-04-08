@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
 
 /**
- * Created by Jun on 2020/9/19 16:21.
+ * Created by luyijun on 2020/9/19 16:21.
  */
 //@Component
 public class MyWebSocket02 {

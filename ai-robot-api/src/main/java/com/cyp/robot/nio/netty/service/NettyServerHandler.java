@@ -6,7 +6,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import java.util.UUID;
 
 /**
- * Created by Jun on 2020/10/26 21:48.
+ * Created by luyijun on 2020/10/26 21:48.
  */
 public class NettyServerHandler extends SimpleChannelInboundHandler<String> {
     @Override

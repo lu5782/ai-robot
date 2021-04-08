@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- * Created by Jun on 2020/3/18 11:20.
+ * Created by luyijun on 2020/3/18 11:20.
  * 很多请求都需要用到相同的Http Header。
  * Spring提供了ClientHttpRequestInterceptor接口，可以对请求进行拦截，
  * 并在其被发送至服务端之前修改请求或是增强相应的信息。
