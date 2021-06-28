@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RibbonConfig {
     @Bean
-    @LoadBalanced // 这个注解是实现负载均衡的，如果不写的话，就只能直接通过url访问其他服务
+//    @LoadBalanced // 这个注解是实现负载均衡的，如果不写的话，就只能直接通过url访问其他服务
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }

@@ -37,7 +37,7 @@ public class FileUtils {
         if (!StringUtils.isEmpty(filePath)) {
             distFilePath = Constants.ROOT_DIR + File.separator + filePath;
         } else {
-            distFilePath = Constants.ROOT_DIR + File.separator + Constants.TEMP_DIR;
+            distFilePath = Constants.TEMP_DIR;
         }
         String distFileName = distFilePath + File.separator + fileName.getOriginalFilename();
         File file = new File(distFileName);
@@ -126,7 +126,7 @@ public class FileUtils {
             String requestURL = request.getRequestURL().toString();
             String file = request.getParameter("file");
 //            if (!requestURL.startsWith("http")) {
-            file = Constants.ROOT_DIR + File.separator + Constants.TEMP_DIR + File.separator + file;
+            file = Constants.TEMP_DIR + File.separator + file;
 //            }
             String suffix = getFileType(file);
             if (suffix == null) {
