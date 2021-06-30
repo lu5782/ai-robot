@@ -25,17 +25,14 @@ public class Consumer {
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
             MessageListenerConcurrently messageListenerConcurrently = new MessageListenerConcurrently() {
                 public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext Context) {
-                    Message msg = list.get(0);
-                    System.out.println(msg.toString());
-                    String topic = msg.getTopic();
-                    System.out.println("topic = " + topic);
-                    byte[] body = msg.getBody();
-                    System.out.println("body:  " + new String(body));
-                    String keys = msg.getKeys();
-                    System.out.println("keys = " + keys);
-                    String tags = msg.getTags();
-                    System.out.println("tags = " + tags);
-                    System.out.println("-----------------------------------------------");
+                    list.forEach(msg -> {
+                        System.out.println("msg.toString() = " + "");
+                        System.out.println("topic = " + msg.getTopic());
+                        System.out.println("body =  " + new String(msg.getBody()));
+                        System.out.println("keys = " + msg.getKeys());
+                        System.out.println("tags = " + msg.getTags());
+                        System.out.println("-----------------------------------------------");
+                    });
                     return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
                 }
             };

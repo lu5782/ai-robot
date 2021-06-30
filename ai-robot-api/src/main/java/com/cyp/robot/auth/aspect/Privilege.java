@@ -1,4 +1,4 @@
-package com.cyp.robot.api.auth.aspect;
+package com.cyp.robot.auth.aspect;
 
 import org.springframework.web.bind.annotation.Mapping;
 

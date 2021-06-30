@@ -21,9 +21,7 @@ public class SchedulingJob implements SchedulingConfigurer {
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         for (JobDetail jobDetail : JobDetail.values()) {
-
             taskRegistrar.addTriggerTask(getRunnable(jobDetail.clazz, jobDetail.methodName), getTrigger(jobDetail.cron));
-
         }
     }
 
@@ -34,13 +32,7 @@ public class SchedulingJob implements SchedulingConfigurer {
                 try {
                     Method declaredMethod = clazz.getDeclaredMethod(methodName);
                     Object invoke = declaredMethod.invoke(clazz.newInstance());
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
+                } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }
@@ -58,8 +50,8 @@ public class SchedulingJob implements SchedulingConfigurer {
     }
 
     enum JobDetail {
-        test(JobHandler.class, "test", "0 0/1 * * * ?", "test"),
-        mkdir(JobHandler.class, "mkdir", "0 0/1 * * * ?", "复制文件"),
+        test(JobHandler.class, "test", "0 0/10 * * * ?", "test"),
+        mkdir(JobHandler.class, "mkdir", "0 0/10 * * * ?", "复制文件"),
         ;
         Class<?> clazz;
         String methodName;

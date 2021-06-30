@@ -1,8 +1,8 @@
-package com.cyp.robot.api.auth.controller;
+package com.cyp.robot.auth.controller;
 
 
 import com.cyp.po.UserInfo;
-import com.cyp.robot.api.auth.service.AuthService;
+import com.cyp.robot.auth.service.AuthService;
 import com.cyp.robot.api.common.dto.ResultDto;
 import com.cyp.robot.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class AuthController {
     }
 
     @RequestMapping("/login")
-    public ResultDto<Object> login(@RequestBody UserInfo userInfo,HttpServletResponse response) {
+    public ResultDto<Object> login(@RequestBody UserInfo userInfo, HttpServletResponse response) {
         log.info("登录账号");
         Boolean flag = authService.login(userInfo);
         if (flag) {

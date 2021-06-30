@@ -1,4 +1,4 @@
-package com.cyp.robot.api.auth.service;
+package com.cyp.robot.auth.service;
 
 
 import com.cyp.po.UserInfo;

@@ -1,9 +1,9 @@
-package com.cyp.robot.api.auth.service.impl;
+package com.cyp.robot.auth.service.impl;
 
 import com.cyp.mapper.UserInfoDynamicSqlSupport;
 import com.cyp.mapper.UserInfoMapper;
 import com.cyp.po.UserInfo;
-import com.cyp.robot.api.auth.service.AuthService;
+import com.cyp.robot.auth.service.AuthService;
 import com.cyp.robot.api.common.Constants;
 import com.cyp.robot.utils.SnowFlakeUtils;
 import lombok.extern.slf4j.Slf4j;

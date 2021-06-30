@@ -21,16 +21,15 @@ public class JobHandler {
 
     public void test() {
         log.info("===============test===================");
-
     }
 
     public void mkdir() {
         log.info("===============mkdir===================");
-        mkDir(Constants.PICTURE_SOURCE);
+        copyFile(Constants.PICTURE_SOURCE);
     }
 
 
-    public static void mkDir(String srcFile) {
+    public static void copyFile(String srcFile) {
         String suffix = srcFile.substring(srcFile.lastIndexOf("."));
         String distFile = Constants.TEMP_DIR + File.separator + getDateString("yyyyMMdd") + File.separator + getDateString("HHmmssSSS") + suffix;
         File file = new File(distFile);
