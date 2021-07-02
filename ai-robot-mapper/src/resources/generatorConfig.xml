@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 本地数据库驱动程序jar包的全路径  使用时改称自己的本地路径-->
+    <!--配置mysql驱动jar包路径，这里问了方便直接采用相对路径引入JAR包，并且对应POM也设置成项目的目录-->
+<!--    <classPathEntry location="C:\JAVA\repository\mysql\mysql-connector-java\5.1.30\mysql-connector-java-5.1.30.jar"/>-->
+
+    <context id="context" targetRuntime="MyBatis3DynamicSql">
+        <!--定义生成的java类的编码格式-->
+<!--        <property name="javaFileEncoding" value="UTF-8"/>-->
+
+        <!--为了防止生成的代码中有很多注释，比较难看，加入下面的配置控制-->
+        <!--suppressAllComments 设置为true 则不再生成注释-->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+<!--            <property name="suppressDate" value="true"/>-->
+        </commentGenerator>
+
+        <!-- 数据库的相关配置 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://47.100.93.192:3306/cyp?characterEncoding=utf8"
+                        userId="root"
+                        password="123456"/>
+
+        <javaTypeResolver>
+<!--            <property name="forceBigDecimals" value="false"/>-->
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
+        <!-- 实体类生成的位置 -->
+        <javaModelGenerator targetPackage="com.cyp.po"
+                            targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- Mapper.xml 文件的位置   MyBatis3DynamicSql不需要Mapper.xml文件-->
+        <!--        <sqlMapGenerator targetPackage="mapper"-->
+        <!--                         targetProject="src/main/resources">-->
+        <!--        </sqlMapGenerator>-->
+
+        <!-- Mapper 接口文件的位置 -->
+        <javaClientGenerator targetPackage="com.cyp.mapper"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <!-- table指定每个生成表的生成策略  表名 和 model实体类名-->
+        <table tableName="cyp_user_info" domainObjectName="UserInfo">
+
+            <!-- 当表中有text、mediumtext等文本类型的字段时 需要设置columnOverride -->
+<!--            <columnOverride column="is_deleted" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+        </table>
+    </context>
+</generatorConfiguration>
