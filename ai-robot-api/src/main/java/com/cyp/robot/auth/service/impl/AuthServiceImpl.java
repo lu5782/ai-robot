@@ -7,12 +7,18 @@ import com.cyp.robot.auth.service.AuthService;
 import com.cyp.robot.api.common.Constants;
 import com.cyp.robot.utils.SnowFlakeUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.dynamic.sql.SqlColumn;
+import org.mybatis.dynamic.sql.select.SelectDSL;
+import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import static com.cyp.mapper.UserInfoDynamicSqlSupport.*;
+import static com.cyp.mapper.UserInfoDynamicSqlSupport.userInfo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 @Service
@@ -43,6 +49,24 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private Boolean checkIsExist(UserInfo userInfo) {
+
+        SelectStatementProvider selectStatementProvider = new SelectStatementProvider() {
+            @Override
+            public Map<String, Object> getParameters() {
+
+                SqlColumn<String> stringSqlColumn = UserInfoDynamicSqlSupport.username;
+                return null;
+            }
+
+            @Override
+            public String getSelectStatement() {
+                return null;
+            }
+        };
+        List<UserInfo> userInfos = mapper.selectMany(selectStatementProvider);
+
+
+
         List<UserInfo> execute = mapper.selectByExample()
                 .where(UserInfoDynamicSqlSupport.username, isEqualTo(userInfo.getUsername()))
                 .and(UserInfoDynamicSqlSupport.password, isEqualTo(userInfo.getPassword()))
