@@ -3,6 +3,7 @@ package com.cyp.robot.api.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cyp.robot.api.common.Constants;
+import com.cyp.robot.utils.DateUtil;
 import com.cyp.robot.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,16 +19,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author :        luyijun
@@ -73,12 +72,18 @@ public class NasController {
 
 
     @RequestMapping("/getChild")
-    private Object getChild(@RequestBody JSONObject params) {
+    private Object getChild(@RequestBody JSONObject params, HttpServletRequest request) {
+        String page1 = request.getParameter("currPage");
+        String rows1 = request.getParameter("rows");
+        String order = request.getParameter("rowNum");
         String filePath = params.getString("filePath");
+        Integer pageNo = params.getInteger("pageNo") == null ? 1 : params.getInteger("pageNo");
+        Integer pageSize = params.getInteger("pageSize") == null ? 10 : params.getInteger("pageSize");
         String pathName = Constants.TEMP_DIR + File.separator + filePath;
         File file = new File(pathName);
         List<String> child = new ArrayList<>();
 
+        JSONArray list = new JSONArray();
         String message;
         if (!file.exists()) {
             message = "文件目录不存在";
@@ -88,9 +93,70 @@ public class NasController {
             File[] files = file.listFiles();
             for (File f : files) {
                 child.add(f.getName());
+                JSONObject dto = new JSONObject();
+                dto.put("name", f.getName());
+                dto.put("updateDate", DateUtil.timestamp2Str(f.lastModified()));
+                dto.put("type", f.isDirectory() ? "文件夹" : "文件");
+                dto.put("size", getSize(f));
+                dto.put("updateBy", "lyj");
+                list.add(dto);
             }
         }
-        return child;
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("list", list);
+        jsonObject.put("page", pageNo);
+        jsonObject.put("totalPage", list.size() / pageSize == 0 ? list.size() / pageSize : list.size() / pageSize + 1);
+        jsonObject.put("totalCount", list.size());
+        return jsonObject;
+    }
+
+    private static String getSize(File f) {
+
+        long size = getDirectoryAndFileSize(f);
+
+        int level = 1;
+        BigDecimal divisor = new BigDecimal(1024);
+        BigDecimal calculateSize = new BigDecimal(size);
+        while (calculateSize.compareTo(divisor) >= 0) {
+            calculateSize = calculateSize.divide(divisor).setScale(2, RoundingMode.HALF_UP);//保留2位小数
+            level++;
+        }
+
+        String company = "B";
+        switch (level) {
+            case 1:
+                company = "B";
+                break;
+            case 2:
+                company = "kB";
+                break;
+            case 3:
+                company = "MB";
+                break;
+            case 4:
+                company = "GB";
+                break;
+            case 5:
+                company = "PB";
+                break;
+            default:
+                break;
+        }
+        return calculateSize + " " + company;
+    }
+
+    private static long getDirectoryAndFileSize(File f) {
+        long size = 0;
+        if (f.isFile()) {
+            size += f.length();
+        } else {
+            File[] files = f.listFiles();
+            for (File file : files) {
+                size += getDirectoryAndFileSize(file);
+            }
+        }
+        return size;
     }
 
 
