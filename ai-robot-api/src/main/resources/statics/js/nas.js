@@ -55,22 +55,36 @@ const vm = new Vue({
             );
         },
         getList() {
-            let page = $('#jqGrid').getGridParam('page')
-            console.log('page==' + page)
             $("#jqGrid").jqGrid({
                 url: baseURL + 'nas/getChild',
                 mtype: "POST",
                 ajaxGridOptions: {
                     contentType: "application/json",
                 },
-                datatype: "json",
-                postData: JSON.stringify({
-                    "filePath": "/",
-                    'pageNo': $('#jqGrid').getGridParam('page'),
-                    'pageSize': $('#jqGrid').getGridParam('rows'),
-                    'order': $('#jqGrid').getGridParam('sort')
-                }),
+                // ---不需要传分页信息时使用---
+                // postData: JSON.stringify({
+                //     "filePath": "/",
+                // }),
+                // ---不需要传分页信息时使用---
 
+                // ---需要传分页信息时使用---
+                prmNames: {
+                    page: "page",
+                    rows: "rows",
+                    order: "sort",
+                },
+                postData: {
+                    "filePath": "/",
+                },
+                // ---需要传分页信息时使用---
+                page: 1,
+                rowNum: 4,                     //在grid上显示记录条数，这个参数是要被传递到后台
+                rowList: [10, 30, 50],
+                rownumbers: true,
+                rownumWidth: 25,
+                autowidth: true,
+                multiselect: true,
+                caption: "操作数组数据",          //相当于标题
                 // colNames: ['名称','类型','修改日期','大小','最后修改人','备注'],
                 colModel: [
                     {label: '名称', name: 'name', index: 'rule_name', width: 80},
@@ -82,30 +96,9 @@ const vm = new Vue({
                 ],
                 viewrecords: true,
                 height: 385,
-                page: 2,
-                rowNum: 4,                            //在grid上显示记录条数，这个参数是要被传递到后台
-                rowList: [10, 30, 50],
-                rownumbers: true,
-                rownumWidth: 25,
-                autowidth: true,
-                multiselect: true,
-                caption: "操作数组数据",          //相当于标题
-
-                // pager 样式
-                // emptyrecords: "Nothing to display",
-                // recordtext: "View {0} - {1} of {2}",
-                // loadtext: "Loading...",
-                // pgtext : "Page {0} of {1}",
 
                 pager: "#jqGridPager",
-                // prmNames: {
-                //     page: "page",
-                //     rows: "limit",
-                //     order: "order"
-                // },
-                // parameters: {},
-
-
+                datatype: "json",           // 返回值的数据格式
                 jsonReader: {
                     root: "list",           // json中代表实际模型数据的入口
                     page: "currPage",       // json中代表当前页码的数据
@@ -121,11 +114,14 @@ const vm = new Vue({
                     // 当表格所有数据都加载完成而且其他的处理也都完成时触发此事件，排序，翻页同样也会触发此事件
                     // 返回指定行的数据，返回数据类型为name:value，name为colModel中的名称，value为所在行的列的值，如果根据rowid找不到则返回空。在编辑模式下不能用此方法来获取数据，它得到的并不是编辑后的值
                     // vm.refresh();
+                    var ids = $("#jqGrid").jqGrid("getDataIDs");//获取所有行的id
+                    var rowData = $("#jqGrid").getRowData(ids[0]);
+                    console.log("第一行数据=" + rowData)
 
                     //隐藏grid底部滚动条
                     // $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
                 }
-            })
+            }).trigger("reloadGrid") //trigger(“reloadGrid”);为重新载入jqGrid表格。
         },
         refresh: function () {
             vm.showList = true;
@@ -141,8 +137,28 @@ const vm = new Vue({
                 sort: sort
             }).trigger("reloadGrid");
         },
-        pgButton: function () {
-            console.log('pgButton ')
+        onPaging:function(pageBtn){ //翻页实现
+
+            var records = $("#jqGrid").getGridParam('page');//获取返回的记录数
+            console.log("records page=" + records)
+
+            var page = $("#jqGrid").getGridParam('page');//获取返回的当前页
+            var rowNum = $("#jqGrid").getGridParam('rowNum'); //获取显示配置记录数量
+            var total = Math.ceil(records/rowNum); //$("#jqGrid").getGridParam('total');//获取总页数
+            if(pageBtn==="next" && page<total){
+                page = parseInt(page)+1;
+            }
+            if(pageBtn==="prev" && page>1){
+                page = parseInt(page)-1;
+            }
+            if(pageBtn==="last"){
+                page = total;
+            }
+            if(pageBtn==="first"){
+                page = 1;
+            }
+            //这里的 loadLoalData( );是自定义的一个js方法。重复利用
         }
+
     }
 });

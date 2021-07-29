@@ -26,7 +26,9 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author :        luyijun
@@ -72,13 +74,22 @@ public class NasController {
 
 
     @RequestMapping("/getChild")
-    private Object getChild(@RequestBody JSONObject params, HttpServletRequest request) {
-        String page1 = request.getParameter("currPage");
-        String rows1 = request.getParameter("rows");
-        String order = request.getParameter("rowNum");
-        String filePath = params.getString("filePath");
-        Integer pageNo = params.getInteger("pageNo") == null ? 1 : params.getInteger("pageNo");
-        Integer pageSize = params.getInteger("pageSize") == null ? 10 : params.getInteger("pageSize");
+    private Object getChild(@RequestBody String params, HttpServletRequest request) throws UnsupportedEncodingException {
+
+        JSONObject map = new JSONObject();
+
+
+        String[] paramArray = params.split("&");
+        for (String param : paramArray) {
+            String[] arr = param.split("=");
+            if (arr.length == 2) {
+                String decode = URLDecoder.decode(arr[1], "utf-8");
+                map.put(arr[0], decode);
+            }
+        }
+        String filePath = map.getString("filePath");
+        Integer pageNo = map.getInteger("pageNo") == null ? 1 : map.getInteger("pageNo");
+        Integer pageSize = map.getInteger("pageSize") == null ? 10 : map.getInteger("pageSize");
         String pathName = Constants.TEMP_DIR + File.separator + filePath;
         File file = new File(pathName);
         List<String> child = new ArrayList<>();
