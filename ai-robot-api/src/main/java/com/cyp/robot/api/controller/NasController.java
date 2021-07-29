@@ -8,6 +8,7 @@ import com.cyp.robot.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,10 +26,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author :        luyijun
@@ -74,22 +72,26 @@ public class NasController {
 
 
     @RequestMapping("/getChild")
-    private Object getChild(@RequestBody String params, HttpServletRequest request) throws UnsupportedEncodingException {
-
+    private Object getChild(@RequestBody String params, HttpServletRequest request) {
         JSONObject map = new JSONObject();
-
-
         String[] paramArray = params.split("&");
         for (String param : paramArray) {
             String[] arr = param.split("=");
             if (arr.length == 2) {
-                String decode = URLDecoder.decode(arr[1], "utf-8");
-                map.put(arr[0], decode);
+                try {
+                    map.put(arr[0], URLDecoder.decode(arr[1], "utf-8"));
+                } catch (Exception e) {
+                    log.info("URLDecoder.decode 异常 arr= {}", Arrays.toString(arr));
+                    e.printStackTrace();
+                }
             }
         }
-        String filePath = map.getString("filePath");
-        Integer pageNo = map.getInteger("pageNo") == null ? 1 : map.getInteger("pageNo");
-        Integer pageSize = map.getInteger("pageSize") == null ? 10 : map.getInteger("pageSize");
+        String filePath = StringUtils.isEmpty(map.getString("filePath")) ? "/" : map.getString("filePath");
+        int page = map.getInteger("page") == null ? 1 : map.getInteger("page");
+        int rows = map.getInteger("rows") == null ? 10 : map.getInteger("rows");
+        String sort = map.getString("sort");
+
+
         String pathName = Constants.TEMP_DIR + File.separator + filePath;
         File file = new File(pathName);
         List<String> child = new ArrayList<>();
@@ -114,10 +116,14 @@ public class NasController {
             }
         }
 
+        int start = (page - 1) * rows;
+        int end = Math.min(page * rows, list.size());
+        log.info("数据总共 {} 条，返回的开始下标= {} 结束下标= {}", list.size(), start, end);
+
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("list", list);
-        jsonObject.put("page", pageNo);
-        jsonObject.put("totalPage", list.size() / pageSize == 0 ? list.size() / pageSize : list.size() / pageSize + 1);
+        jsonObject.put("list", list.subList(start, end));
+        jsonObject.put("page", page);
+        jsonObject.put("totalPage", list.size() % rows == 0 ? list.size() / rows : list.size() / rows + 1);
         jsonObject.put("totalCount", list.size());
         return jsonObject;
     }
