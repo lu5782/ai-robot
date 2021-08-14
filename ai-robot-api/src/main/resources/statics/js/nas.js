@@ -127,31 +127,60 @@ function getChildFiles(filePath) {
     }).trigger("reloadGrid");
 }
 
-// function uploadFile() {
-//     //调用的后台接口
-//     let url = baseURL + '/nas/upload';
-//     console.log("uploadFile..." + url)
-//
-//     //从后台获取到对象数组
-//     axios.get(url).then((response) => {
-//         //在这里为这个数组中每一个对象加一个value字段, 因为autocomplete只识别value字段并在下拉列中显示
-//         if (null != response) {
-//             console.log(response);
-//         }
-//     }).catch((error) => {
-//         console.log(error);
-//     });
-//
-//     // upload.render({
-//     //     elem: '#test3',
-//     //     url: url,     //此处配置你自己的上传接口即可
-//     //     accept: 'file', //普通文件
-//     //     done: function (res) {
-//     //         layer.msg('上传成功');
-//     //         console.log(res);
-//     //     }
-//     // });
-// }
+// 方式一
+function formUpload() {
+    if (!window.FormData) {
+        console.log("你的浏览器不支持")
+    }
+    let formData = new FormData($('#formUpload')[0]);
+    $.ajax(
+        {
+            url: '/nas/upload',
+            data: formData,           // 需要传送的参数
+            type: 'POST',           // 请求方式
+            dataType: 'json',       // 返回数据的格式, 通常为JSON
+            async: false,
+            cache: false,           // 上传文件不需要缓存
+            contentType: false,
+            processData: false,     //取消帮我们格式化数据，是什么就是什么
+            success: function (response) {
+                console.log("success");
+                console.log(response);
+                // window.location.href = result; //如果返回了图片的URL，会转跳到图片URL
+            },
+            error: function (response) {
+                console.log('error');
+                console.log(response);
+            }
+        }
+    );
+}
+
+// 方式二
+function inputUpload() {
+    const formData = new FormData();
+    let upload = $('#inputUpload');
+    console.log("files.length= " + upload[0].files.length);
+    for (let i = 0; i < upload[0].files.length; i++) {
+        formData.append('file', upload[0].files[i]);
+    }
+    $.ajax({
+        url: '/nas/upload',
+        type: 'POST',
+        dataType: 'json',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false
+    }).done(function (response) {
+        console.log("done");
+        console.log(response);
+    }).fail(function (response) {
+        console.log("fail");
+        console.log(response);
+    });
+}
 
 
 function clickButton() {

@@ -62,21 +62,16 @@
 
 
 <div style="height:1000px;width:100%;">
-    <div id="test">
-        <!--        <i class="layui-icon-upload-circle" style="font-size: 30px; color: #1E9FFF;"></i>-->
-        <!--        <i class="layui-icon-refresh-3" style="font-size: 30px; color: #1E9FFF;"></i>-->
-        <!--        <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe9aa;</i></button>&lt;!&ndash; 下载 &ndash;&gt;-->
-    </div>
-
 
     <div class="form-group">
-        <form id="upload" enctype="multipart/form-data" method="post" role="form">
+        <!-- 上传方式一 -->
+        <form id="formUpload" enctype="multipart/form-data" method="post" role="form">
             <!-- 上传后，服务器端代码需要使用从查询参数名为file获取文件输入流对象，因为中声明的是name="file"。 -->
-            <input id="txtFile" name="file" type="file" multiple onchange="uploadFile()" />
-            <!--    <button type="button" class="layui-btn" id="test3" onclick="uploadFile()">-->
-            <!--        <i class="layui-icon layui-font-12"></i>上传文件-->
-            <!--    </button>-->
+            <input type="file" multiple onchange="formUpload()" name="file"/>
         </form>
+
+        <!-- 上传方式二 -->
+        <input id="inputUpload" type="file" multiple onchange="inputUpload()" name="file"/>
         <button type="button" class="layui-btn layui-btn-sm">新建文件夹<i class="layui-icon">&#xe624;</i></button>
         <button type="button" class="layui-btn layui-btn-sm">新建文件<i class="layui-icon">&#xe655;</i></button>
     </div>
@@ -126,41 +121,11 @@
 </html>
 
 
-
 <script src="/js/nas.js"></script>
 <script type="text/javascript">
 
     $('#head').load('/components/header.html')
 
-    function uploadFile() {
-        if (!window.FormData) {
-            console.log("你的浏览器不支持")
-        }
-        console.log($('#txtFile'))
-        console.log($('#upload'))
-        let params = new FormData($('#upload')[0]);
-
-        $.ajax(
-            {
-                url: '/nas/upload',
-                data: params,           // 需要传送的参数
-                type: 'POST',           // 请求方式
-                dataType: 'json',       // 返回数据的格式, 通常为JSON
-                async: false,
-                cache: false,           // 上传文件不需要缓存
-                contentType: false,
-                processData: false,     //取消帮我们格式化数据，是什么就是什么
-                success: function (result) {
-                    console.log(result);
-                    // window.location.href = result; //如果返回了图片的URL，会转跳到图片URL
-                },
-                error: function (result) {
-                    console.log('Send Request Fail..');
-                    console.log(result);
-                }
-            }
-        );
-    }
 
     // window.onload = function () {
     //     getFileLists()
