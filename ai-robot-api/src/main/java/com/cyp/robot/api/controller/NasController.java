@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -46,10 +47,18 @@ public class NasController {
      * @param filePath
      */
     @RequestMapping("/upload")
-    private List<String> upload(@RequestParam("fileName") MultipartFile[] fileName, @RequestParam(required = false) String filePath) {
+    private List<String> upload(@RequestParam("file") MultipartFile[] fileName, @RequestParam(required = false) String filePath, HttpServletRequest request) {
         log.info("批量上传文件数量=" + fileName.length);
         List<String> list = new ArrayList<>();
+
+        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
+        List<MultipartFile> files = multipartHttpServletRequest.getFiles("file");
+
+
         for (MultipartFile multipartFile : fileName) {
+            log.info("上传文件最大10M，文件= {} size= {} 是否超过= {}", multipartFile.getName(), multipartFile.getOriginalFilename(), (multipartFile.getSize() > 10485760));
+            if (multipartFile.getSize() > 10485760)
+                continue;
             String upload = FileUtils.uploadMultipartFile(multipartFile, filePath);
             list.add(upload);
         }
@@ -92,6 +101,10 @@ public class NasController {
         String sort = map.getString("sort");
 
 
+        if ("...".equals(filePath)) {
+
+        }
+
         String pathName = Constants.TEMP_DIR + File.separator + filePath;
         File file = new File(pathName);
         List<String> child = new ArrayList<>();
@@ -109,7 +122,7 @@ public class NasController {
                 JSONObject dto = new JSONObject();
                 dto.put("name", f.getName());
                 dto.put("updateDate", DateUtil.timestamp2Str(f.lastModified()));
-                dto.put("type", f.isDirectory() ? "文件夹" : "文件");
+                dto.put("type", f.isDirectory() ? "dir" : "file");
                 dto.put("size", getSize(f));
                 dto.put("updateBy", "lyj");
                 list.add(dto);
@@ -120,12 +133,21 @@ public class NasController {
         int end = Math.min(page * rows, list.size());
         log.info("数据总共 {} 条，返回的开始下标= {} 结束下标= {}", list.size(), start, end);
 
+
+        List<Object> responseData = list.subList(start, end);
+//        responseData.add(0, getDefaultFile());
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("list", list.subList(start, end));
+        jsonObject.put("list", responseData);
         jsonObject.put("page", page);
         jsonObject.put("totalPage", list.size() % rows == 0 ? list.size() / rows : list.size() / rows + 1);
         jsonObject.put("totalCount", list.size());
         return jsonObject;
+    }
+
+    private JSONObject getDefaultFile() {
+        JSONObject dto = new JSONObject();
+        dto.put("name", "...");
+        return dto;
     }
 
     private static String getSize(File f) {

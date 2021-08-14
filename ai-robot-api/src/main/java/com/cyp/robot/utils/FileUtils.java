@@ -17,6 +17,8 @@ import java.net.URLEncoder;
 import java.nio.channels.FileChannel;
 import java.util.UUID;
 
+import static com.cyp.robot.api.common.Constants.POINT;
+
 /**
  * Created by luyijun on 2020/6/30 23:35.
  */
@@ -124,7 +126,11 @@ public class FileUtils {
         ServletOutputStream out = null;
         try {
             String requestURL = request.getRequestURL().toString();
-            String file = request.getParameter("file");
+            String queryString = request.getQueryString();
+            // 文件名称没有 & 等特殊字符
+//            String file = request.getParameter("file");
+            // 文件名称中有 & 等特殊字符
+            String file = queryString.substring(queryString.indexOf("file=") + "file=".length());
 //            if (!requestURL.startsWith("http")) {
             file = Constants.TEMP_DIR + File.separator + file;
 //            }
@@ -134,7 +140,7 @@ public class FileUtils {
                 return;
             }
             String fileName = getFileName(request);
-            response.setHeader("content-disposition", "attachment;filename=" + fileName + "." + suffix);
+            response.setHeader("content-disposition", "attachment;filename=" + fileName + POINT + suffix);
 
             if (file.startsWith("http")) {
                 URL url = new URL(file);
@@ -211,6 +217,7 @@ public class FileUtils {
         byte[] src = new byte[28];
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < src.length; i++) {
+            assert byteArray != null;
             int v = byteArray[i] & 0xFF;
             String hv = Integer.toHexString(v).toUpperCase();
             if (hv.length() < 2) {
@@ -224,7 +231,9 @@ public class FileUtils {
                 return enums.name().toLowerCase();
             }
         }
-        return null;
+
+        // 匹配不到文件格式就使用文件的后缀名
+        return httpUrl.substring(httpUrl.lastIndexOf(POINT) + POINT.length());
     }
 
     public static void base64ToImage(String base64Code, String imgPathName) {

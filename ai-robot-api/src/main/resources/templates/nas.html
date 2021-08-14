@@ -62,41 +62,57 @@
 
 
 <div style="height:1000px;width:100%;">
-    <form id="upload" enctype="multipart/form-data" method="post" role="form">
-        <input id="txtFile" name="fileName" type="file" @click="uploadFile()"/>
-    </form>
+    <div id="test">
+        <!--        <i class="layui-icon-upload-circle" style="font-size: 30px; color: #1E9FFF;"></i>-->
+        <!--        <i class="layui-icon-refresh-3" style="font-size: 30px; color: #1E9FFF;"></i>-->
+        <!--        <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe9aa;</i></button>&lt;!&ndash; 下载 &ndash;&gt;-->
+    </div>
+
+
+    <div class="form-group">
+        <form id="upload" enctype="multipart/form-data" method="post" role="form">
+            <!-- 上传后，服务器端代码需要使用从查询参数名为file获取文件输入流对象，因为中声明的是name="file"。 -->
+            <input id="txtFile" name="file" type="file" multiple onchange="uploadFile()" />
+            <!--    <button type="button" class="layui-btn" id="test3" onclick="uploadFile()">-->
+            <!--        <i class="layui-icon layui-font-12"></i>上传文件-->
+            <!--    </button>-->
+        </form>
+        <button type="button" class="layui-btn layui-btn-sm">新建文件夹<i class="layui-icon">&#xe624;</i></button>
+        <button type="button" class="layui-btn layui-btn-sm">新建文件<i class="layui-icon">&#xe655;</i></button>
+    </div>
+
+
+    <div class="form-group">
+        <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe601;</i></button><!-- 下载 -->
+        <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button><!-- 批量重命名 -->
+        <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button><!-- 删除 -->
+        <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button><!-- 分享 -->
+        <button type="button" class="layui-btn layui-btn-sm">复制到
+            <i class="layui-icon layui-icon-down layui-font-12"></i>
+        </button>
+        <button type="button" class="layui-btn layui-btn-sm">移动到
+            <i class="layui-icon layui-icon-down layui-font-12"></i>
+        </button>
+    </div>
+
 
     <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">{{title}}</div>
         <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-5">
+                    <!-- 刷新 -->
+                    <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe9aa;</i></button>
+                    <input type="text" class="form-control" v-model="financeHisIncrementRule.ruleName"
+                           placeholder="当前文件完整路径"/>
+                </div>
+            </div>
 
             <div class="form-group">
-                <div class="col-sm-2 control-label">规则名称</div>
                 <div class="col-sm-5">
                     <input type="text" class="form-control" v-model="financeHisIncrementRule.ruleName"
-                           placeholder="规则名称"/>
+                           placeholder="搜索我的文件"/>
                 </div>
-            </div>
-
-            <div class="layui-form-item" style="margin-top: 20px; margin-left: 190px">
-                <label class="layui-form-label" style="width: auto;">设置</label>
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;">{{financeHisIncrementRule.firstText}}</label>
-                    <div class="layui-input-block" style="margin-left: 50px">
-                        <input type="text" class="layui-input" v-model="financeHisIncrementRule.durationNum"
-                               id="ruleContent" onkeyup="this.value=this.value.replace(/[^0-9]*/g,'') "/>
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label" style="width: auto;">{{financeHisIncrementRule.lastText}}</label>
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <input type="button" class="layui-btn" @click="saveOrUpdate" value="确定"/>
-                &nbsp;&nbsp;<input type="button" class="layui-btn" @click="reload" value="返回"/>
+                <input type="button" class="layui-btn" onclick="saveOrUpdate" value="确定"/>
             </div>
         </form>
     </div>
@@ -104,43 +120,47 @@
     <table id="jqGrid"></table>
     <div id="jqGridPager"></div>
 </div>
-<!--<div style="height:100%;width:100%;">-->
-<!--    <table style="position: center">-->
-<!--        <img src="/img/home.jpg"/>-->
-<!--    </table>-->
-<!--</div>-->
+
+
 </body>
 </html>
+
+
 
 <script src="/js/nas.js"></script>
 <script type="text/javascript">
 
     $('#head').load('/components/header.html')
 
-    // function uploadFile() {
-    //     console.log($('#txtFile'))
-    //     // console.log($('#txtFile').val())
-    //     let params = new FormData($('#upload')[0]);
-    //     console.log(params)
-    //
-    //     $.ajax(
-    //         {
-    //             url: '/nas/upload',
-    //             data: params,   // 需要传送的参数
-    //             type: 'POST',   // 请求方式
-    //             dataType: 'json', // 返回数据的格式, 通常为JSON
-    //             contentType: false,
-    //             processData: false,//取消帮我们格式化数据，是什么就是什么
-    //             success: function (result) {
-    //                 console.log(result); // 请求成功后的回调函数, result 为响应内容
-    //                 // window.location.href = result; //如果返回了图片的URL，会转跳到图片URL
-    //             },
-    //             error: function () {
-    //                 console.log('Send Request Fail..'); // 请求失败时的回调函数
-    //             }
-    //         }
-    //     );
-    // }
+    function uploadFile() {
+        if (!window.FormData) {
+            console.log("你的浏览器不支持")
+        }
+        console.log($('#txtFile'))
+        console.log($('#upload'))
+        let params = new FormData($('#upload')[0]);
+
+        $.ajax(
+            {
+                url: '/nas/upload',
+                data: params,           // 需要传送的参数
+                type: 'POST',           // 请求方式
+                dataType: 'json',       // 返回数据的格式, 通常为JSON
+                async: false,
+                cache: false,           // 上传文件不需要缓存
+                contentType: false,
+                processData: false,     //取消帮我们格式化数据，是什么就是什么
+                success: function (result) {
+                    console.log(result);
+                    // window.location.href = result; //如果返回了图片的URL，会转跳到图片URL
+                },
+                error: function (result) {
+                    console.log('Send Request Fail..');
+                    console.log(result);
+                }
+            }
+        );
+    }
 
     // window.onload = function () {
     //     getFileLists()
@@ -167,21 +187,4 @@
     //     );
     // }
 
-    // $.ajax(
-    //     {
-    //         url: '/nas/upload',
-    //         data: JSON.stringify({stuID: stuID2}),   // 需要传送的参数
-    //         type: 'POST',   // 请求方式
-    //         dataType: 'json', // 返回数据的格式, 通常为JSON
-    //         contentType: 'application/json',
-    //         success: function (result) {
-    //             console.log(result); // 请求成功后的回调函数, result 为响应内容
-    //             window.location.href = result.NextUrl;
-    //             msg = result.Msg;
-    //         },
-    //         error: function () {
-    //             console.log('Send Request Fail..'); // 请求失败时的回调函数
-    //         }
-    //     }
-    // );
 </script>
