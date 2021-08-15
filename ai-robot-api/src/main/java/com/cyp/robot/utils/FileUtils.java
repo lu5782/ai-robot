@@ -29,8 +29,7 @@ public class FileUtils {
      * 上传文件
      */
     public static String uploadMultipartFile(MultipartFile fileName, String filePath) {
-        log.info("文件名=" + fileName.getOriginalFilename());
-        log.info("参数名=" + fileName.getName());
+        log.info("参数名= {} 原文件名= {}", fileName.getName(), fileName.getOriginalFilename());
         if (StringUtils.isEmpty(fileName.getOriginalFilename())) {
             throw new RuntimeException("请选择一个文件");
         }

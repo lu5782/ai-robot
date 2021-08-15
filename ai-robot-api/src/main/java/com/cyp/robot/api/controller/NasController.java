@@ -48,7 +48,7 @@ public class NasController {
      */
     @RequestMapping("/upload")
     private List<String> upload(@RequestParam("file") MultipartFile[] fileName, @RequestParam(required = false) String filePath, HttpServletRequest request) {
-        log.info("批量上传文件数量=" + fileName.length);
+        log.info("批量上传文件数量 888=" + fileName.length);
         List<String> list = new ArrayList<>();
 
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
@@ -56,9 +56,11 @@ public class NasController {
 
 
         for (MultipartFile multipartFile : fileName) {
-            log.info("上传文件最大10M，文件= {} size= {} 是否超过= {}", multipartFile.getName(), multipartFile.getOriginalFilename(), (multipartFile.getSize() > 10485760));
-            if (multipartFile.getSize() > 10485760)
-                continue;
+//            log.info("上传文件最大10M，文件= {} size= {} 是否超过= {}", multipartFile.getName(), multipartFile.getOriginalFilename(), (multipartFile.getSize() > 10485760));
+//            if (multipartFile.getSize() > 10485760)
+//                continue;
+
+
             String upload = FileUtils.uploadMultipartFile(multipartFile, filePath);
             list.add(upload);
         }
@@ -131,8 +133,7 @@ public class NasController {
 
         int start = (page - 1) * rows;
         int end = Math.min(page * rows, list.size());
-        log.info("数据总共 {} 条，返回的开始下标= {} 结束下标= {}", list.size(), start, end);
-
+//        log.info("数据总共 {} 条，返回的开始下标= {} 结束下标= {}", list.size(), start, end);
 
         List<Object> responseData = list.subList(start, end);
 //        responseData.add(0, getDefaultFile());

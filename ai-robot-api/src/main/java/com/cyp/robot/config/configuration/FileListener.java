@@ -11,7 +11,7 @@ import java.util.Properties;
 /**
  * Created by Sean on 2018/1/30.
  */
-public class FileListenerConfig extends FileAlterationListenerAdaptor {
+public class FileListener extends FileAlterationListenerAdaptor {
     @Override
     public void onFileChange(File file) {
         super.onFileChange(file);
@@ -19,14 +19,15 @@ public class FileListenerConfig extends FileAlterationListenerAdaptor {
         try {
             Properties sysProps = PropertiesLoaderUtils.loadProperties(new FileSystemResource(file));
             //加载密码
-            if (sysProps.getProperty("putiandi.yunpu.mobileCheckCode") != null && sysProps.getProperty("putiandi.yunpu.mobileCheckCode") != ""){
-                HotReLoadConfig.map.put("mobileCheckCode",sysProps.getProperty("putiandi.yunpu.mobileCheckCode"));
+            if (sysProps.getProperty("putiandi.yunpu.mobileCheckCode") != null
+                    && !sysProps.getProperty("putiandi.yunpu.mobileCheckCode").equals("")) {
+                FileListenerFactory.map.put("mobileCheckCode", sysProps.getProperty("putiandi.yunpu.mobileCheckCode"));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-        System.out.println("---------:"+file.getAbsolutePath());
+        System.out.println("---------onFileChange:" + file.getAbsolutePath());
     }
 }
