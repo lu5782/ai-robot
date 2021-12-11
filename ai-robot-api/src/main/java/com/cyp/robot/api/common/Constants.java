@@ -11,9 +11,9 @@ public class Constants {
     public static final String DOWNLOAD_DIR = ROOT_DIR + "/download";
     public static final String PICTURE_SOURCE = ROOT_DIR + "/picture/png-001.png";
 
-    //数据状态  0：有效， 1：无效
-    public static final int IS_DELETED_0 = 0;
+    //逻辑删除状态  1：有效， 2：无效
     public static final int IS_DELETED_1 = 1;
+    public static final int IS_DELETED_2 = 2;
     public static final String OPT_BY = "SYS";
 
     //excel

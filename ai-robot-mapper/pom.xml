@@ -37,7 +37,7 @@
             <version>3.4.6</version>
             <scope>compile</scope>
         </dependency>
-        <!-- dynamic-sql 用于测试MyBatis3DynamicSql生成的代码-->
+        <!-- dynamic-sql 用于测试 MyBatis3DynamicSql 生成的代码-->
         <dependency>
             <groupId>org.mybatis.dynamic-sql</groupId>
             <artifactId>mybatis-dynamic-sql</artifactId>
@@ -53,8 +53,8 @@
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>${mybatis.generator.version}</version>
                 <configuration>
-                    <!-- 自动生成的配置 默认找generatorConfig.xml文件-->
-<!--                    <configurationFile>src/main/resources/默认找generatorConfig.xml</configurationFile>-->
+                    <!-- 不配置 默认找 src/main/resources/generatorConfig.xml 文件-->
+<!--                    <configurationFile>src/main/resources/generatorConfig.xml</configurationFile>-->
                     <!--允许移动生成的文件 -->
                     <verbose>true</verbose>
                     <!-- 是否覆盖 -->

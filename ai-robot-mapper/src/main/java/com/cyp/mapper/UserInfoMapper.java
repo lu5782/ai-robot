@@ -52,17 +52,17 @@ public interface UserInfoMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="UserInfoResult", value = {
-        @Result(column="id", property="id", jdbcType=JdbcType.VARCHAR, id=true),
+        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="username", property="username", jdbcType=JdbcType.VARCHAR),
         @Result(column="password", property="password", jdbcType=JdbcType.VARCHAR),
-        @Result(column="phone_num", property="phoneNum", jdbcType=JdbcType.INTEGER),
+        @Result(column="phoneNum", property="phoneNum", jdbcType=JdbcType.VARCHAR),
         @Result(column="email", property="email", jdbcType=JdbcType.VARCHAR),
-        @Result(column="sex", property="sex", jdbcType=JdbcType.BIT),
-        @Result(column="is_deleted", property="isDeleted", jdbcType=JdbcType.INTEGER),
-        @Result(column="created_by", property="createdBy", jdbcType=JdbcType.VARCHAR),
-        @Result(column="created_date", property="createdDate", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="updated_by", property="updatedBy", jdbcType=JdbcType.VARCHAR),
-        @Result(column="updated_date", property="updatedDate", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="sex", property="sex", jdbcType=JdbcType.TINYINT),
+        @Result(column="isDeleted", property="isDeleted", jdbcType=JdbcType.INTEGER),
+        @Result(column="createBy", property="createBy", jdbcType=JdbcType.VARCHAR),
+        @Result(column="createDate", property="createDate", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="updateBy", property="updateBy", jdbcType=JdbcType.VARCHAR),
+        @Result(column="updateDate", property="updateDate", jdbcType=JdbcType.TIMESTAMP)
     })
     List<UserInfo> selectMany(SelectStatementProvider selectStatement);
 
@@ -82,7 +82,7 @@ public interface UserInfoMapper {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default int deleteByPrimaryKey(String id_) {
+    default int deleteByPrimaryKey(Integer id_) {
         return DeleteDSL.deleteFromWithMapper(this::delete, userInfo)
                 .where(id, isEqualTo(id_))
                 .build()
@@ -100,10 +100,10 @@ public interface UserInfoMapper {
                 .map(email).toProperty("email")
                 .map(sex).toProperty("sex")
                 .map(isDeleted).toProperty("isDeleted")
-                .map(createdBy).toProperty("createdBy")
-                .map(createdDate).toProperty("createdDate")
-                .map(updatedBy).toProperty("updatedBy")
-                .map(updatedDate).toProperty("updatedDate")
+                .map(createBy).toProperty("createBy")
+                .map(createDate).toProperty("createDate")
+                .map(updateBy).toProperty("updateBy")
+                .map(updateDate).toProperty("updateDate")
                 .build()
                 .render(RenderingStrategy.MYBATIS3));
     }
@@ -119,29 +119,29 @@ public interface UserInfoMapper {
                 .map(email).toPropertyWhenPresent("email", record::getEmail)
                 .map(sex).toPropertyWhenPresent("sex", record::getSex)
                 .map(isDeleted).toPropertyWhenPresent("isDeleted", record::getIsDeleted)
-                .map(createdBy).toPropertyWhenPresent("createdBy", record::getCreatedBy)
-                .map(createdDate).toPropertyWhenPresent("createdDate", record::getCreatedDate)
-                .map(updatedBy).toPropertyWhenPresent("updatedBy", record::getUpdatedBy)
-                .map(updatedDate).toPropertyWhenPresent("updatedDate", record::getUpdatedDate)
+                .map(createBy).toPropertyWhenPresent("createBy", record::getCreateBy)
+                .map(createDate).toPropertyWhenPresent("createDate", record::getCreateDate)
+                .map(updateBy).toPropertyWhenPresent("updateBy", record::getUpdateBy)
+                .map(updateDate).toPropertyWhenPresent("updateDate", record::getUpdateDate)
                 .build()
                 .render(RenderingStrategy.MYBATIS3));
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default QueryExpressionDSL<MyBatis3SelectModelAdapter<List<UserInfo>>> selectByExample() {
-        return SelectDSL.selectWithMapper(this::selectMany, id, username, password, phoneNum, email, sex, isDeleted, createdBy, createdDate, updatedBy, updatedDate)
+        return SelectDSL.selectWithMapper(this::selectMany, id, username, password, phoneNum, email, sex, isDeleted, createBy, createDate, updateBy, updateDate)
                 .from(userInfo);
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default QueryExpressionDSL<MyBatis3SelectModelAdapter<List<UserInfo>>> selectDistinctByExample() {
-        return SelectDSL.selectDistinctWithMapper(this::selectMany, id, username, password, phoneNum, email, sex, isDeleted, createdBy, createdDate, updatedBy, updatedDate)
+        return SelectDSL.selectDistinctWithMapper(this::selectMany, id, username, password, phoneNum, email, sex, isDeleted, createBy, createDate, updateBy, updateDate)
                 .from(userInfo);
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default UserInfo selectByPrimaryKey(String id_) {
-        return SelectDSL.selectWithMapper(this::selectOne, id, username, password, phoneNum, email, sex, isDeleted, createdBy, createdDate, updatedBy, updatedDate)
+    default UserInfo selectByPrimaryKey(Integer id_) {
+        return SelectDSL.selectWithMapper(this::selectOne, id, username, password, phoneNum, email, sex, isDeleted, createBy, createDate, updateBy, updateDate)
                 .from(userInfo)
                 .where(id, isEqualTo(id_))
                 .build()
@@ -158,10 +158,10 @@ public interface UserInfoMapper {
                 .set(email).equalTo(record::getEmail)
                 .set(sex).equalTo(record::getSex)
                 .set(isDeleted).equalTo(record::getIsDeleted)
-                .set(createdBy).equalTo(record::getCreatedBy)
-                .set(createdDate).equalTo(record::getCreatedDate)
-                .set(updatedBy).equalTo(record::getUpdatedBy)
-                .set(updatedDate).equalTo(record::getUpdatedDate);
+                .set(createBy).equalTo(record::getCreateBy)
+                .set(createDate).equalTo(record::getCreateDate)
+                .set(updateBy).equalTo(record::getUpdateBy)
+                .set(updateDate).equalTo(record::getUpdateDate);
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -174,10 +174,10 @@ public interface UserInfoMapper {
                 .set(email).equalToWhenPresent(record::getEmail)
                 .set(sex).equalToWhenPresent(record::getSex)
                 .set(isDeleted).equalToWhenPresent(record::getIsDeleted)
-                .set(createdBy).equalToWhenPresent(record::getCreatedBy)
-                .set(createdDate).equalToWhenPresent(record::getCreatedDate)
-                .set(updatedBy).equalToWhenPresent(record::getUpdatedBy)
-                .set(updatedDate).equalToWhenPresent(record::getUpdatedDate);
+                .set(createBy).equalToWhenPresent(record::getCreateBy)
+                .set(createDate).equalToWhenPresent(record::getCreateDate)
+                .set(updateBy).equalToWhenPresent(record::getUpdateBy)
+                .set(updateDate).equalToWhenPresent(record::getUpdateDate);
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -189,10 +189,10 @@ public interface UserInfoMapper {
                 .set(email).equalTo(record::getEmail)
                 .set(sex).equalTo(record::getSex)
                 .set(isDeleted).equalTo(record::getIsDeleted)
-                .set(createdBy).equalTo(record::getCreatedBy)
-                .set(createdDate).equalTo(record::getCreatedDate)
-                .set(updatedBy).equalTo(record::getUpdatedBy)
-                .set(updatedDate).equalTo(record::getUpdatedDate)
+                .set(createBy).equalTo(record::getCreateBy)
+                .set(createDate).equalTo(record::getCreateDate)
+                .set(updateBy).equalTo(record::getUpdateBy)
+                .set(updateDate).equalTo(record::getUpdateDate)
                 .where(id, isEqualTo(record::getId))
                 .build()
                 .execute();
@@ -207,10 +207,10 @@ public interface UserInfoMapper {
                 .set(email).equalToWhenPresent(record::getEmail)
                 .set(sex).equalToWhenPresent(record::getSex)
                 .set(isDeleted).equalToWhenPresent(record::getIsDeleted)
-                .set(createdBy).equalToWhenPresent(record::getCreatedBy)
-                .set(createdDate).equalToWhenPresent(record::getCreatedDate)
-                .set(updatedBy).equalToWhenPresent(record::getUpdatedBy)
-                .set(updatedDate).equalToWhenPresent(record::getUpdatedDate)
+                .set(createBy).equalToWhenPresent(record::getCreateBy)
+                .set(createDate).equalToWhenPresent(record::getCreateDate)
+                .set(updateBy).equalToWhenPresent(record::getUpdateBy)
+                .set(updateDate).equalToWhenPresent(record::getUpdateDate)
                 .where(id, isEqualTo(record::getId))
                 .build()
                 .execute();

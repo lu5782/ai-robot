@@ -1,11 +1,11 @@
 package com.cyp.po;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import javax.annotation.Generated;
 
 public class UserInfo {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private String id;
+    private Integer id;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String username;
@@ -14,37 +14,37 @@ public class UserInfo {
     private String password;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Integer phoneNum;
+    private String phoneNum;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String email;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Boolean sex;
+    private Byte sex;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private Integer isDeleted;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private String createdBy;
+    private String createBy;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Date createdDate;
+    private LocalDateTime createDate;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private String updatedBy;
+    private String updateBy;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Date updatedDate;
+    private LocalDateTime updateDate;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -68,13 +68,13 @@ public class UserInfo {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public Integer getPhoneNum() {
+    public String getPhoneNum() {
         return phoneNum;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setPhoneNum(Integer phoneNum) {
-        this.phoneNum = phoneNum;
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum == null ? null : phoneNum.trim();
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -88,12 +88,12 @@ public class UserInfo {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public Boolean getSex() {
+    public Byte getSex() {
         return sex;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setSex(Boolean sex) {
+    public void setSex(Byte sex) {
         this.sex = sex;
     }
 
@@ -108,42 +108,42 @@ public class UserInfo {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public String getCreatedBy() {
-        return createdBy;
+    public String getCreateBy() {
+        return createBy;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy == null ? null : createdBy.trim();
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy == null ? null : createBy.trim();
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public Date getCreatedDate() {
-        return createdDate;
+    public LocalDateTime getCreateDate() {
+        return createDate;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public String getUpdatedBy() {
-        return updatedBy;
+    public String getUpdateBy() {
+        return updateBy;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy == null ? null : updatedBy.trim();
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy == null ? null : updateBy.trim();
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public Date getUpdatedDate() {
-        return updatedDate;
+    public LocalDateTime getUpdateDate() {
+        return updateDate;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
+    public void setUpdateDate(LocalDateTime updateDate) {
+        this.updateDate = updateDate;
     }
 }
