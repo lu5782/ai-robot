@@ -48,19 +48,16 @@ public class NasController {
      */
     @RequestMapping("/upload")
     private List<String> upload(@RequestParam("file") MultipartFile[] fileName, @RequestParam(required = false) String filePath, HttpServletRequest request) {
-        log.info("批量上传文件数量 888=" + fileName.length);
+        log.info("批量上传文件数量 =" + fileName.length);
         List<String> list = new ArrayList<>();
 
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
         List<MultipartFile> files = multipartHttpServletRequest.getFiles("file");
 
-
         for (MultipartFile multipartFile : fileName) {
 //            log.info("上传文件最大10M，文件= {} size= {} 是否超过= {}", multipartFile.getName(), multipartFile.getOriginalFilename(), (multipartFile.getSize() > 10485760));
 //            if (multipartFile.getSize() > 10485760)
 //                continue;
-
-
             String upload = FileUtils.uploadMultipartFile(multipartFile, filePath);
             list.add(upload);
         }
@@ -73,6 +70,14 @@ public class NasController {
         FileUtils.downloadFile(request, response);
     }
 
+
+    @RequestMapping("/copyFile")
+    public void upload(@RequestBody JSONObject jsonObject) {
+        String src = jsonObject.getString("file");
+        File srcFile = new File(src);
+        String dist = Constants.UPLOAD_DIR + File.separator + srcFile.getName();
+        FileUtils.copyFile(src, dist);
+    }
 
     public String date2String() {
         LocalDateTime now = LocalDateTime.now();
@@ -92,8 +97,8 @@ public class NasController {
                 try {
                     map.put(arr[0], URLDecoder.decode(arr[1], "utf-8"));
                 } catch (Exception e) {
-                    log.info("URLDecoder.decode 异常 arr= {}", Arrays.toString(arr));
-                    e.printStackTrace();
+                    log.info("URLDecoder.decode 异常 arr= {}", Arrays.toString(arr), e);
+//                    e.printStackTrace();
                 }
             }
         }
@@ -112,6 +117,8 @@ public class NasController {
         List<String> child = new ArrayList<>();
 
         JSONArray list = new JSONArray();
+        list.add(getDefaultFile(pathName));
+
         String message;
         if (!file.exists()) {
             message = "文件目录不存在";
@@ -123,6 +130,7 @@ public class NasController {
                 child.add(f.getName());
                 JSONObject dto = new JSONObject();
                 dto.put("name", f.getName());
+                dto.put("parentName",pathName);
                 dto.put("updateDate", DateUtil.timestamp2Str(f.lastModified()));
                 dto.put("type", f.isDirectory() ? "dir" : "file");
                 dto.put("size", getSize(f));
@@ -145,9 +153,10 @@ public class NasController {
         return jsonObject;
     }
 
-    private JSONObject getDefaultFile() {
+    private JSONObject getDefaultFile(String pathName) {
         JSONObject dto = new JSONObject();
         dto.put("name", "...");
+        dto.put("parentName",pathName);
         return dto;
     }
 

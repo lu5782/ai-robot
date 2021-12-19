@@ -2,20 +2,23 @@ $(function () {
     getFiles("/")
 });
 
-const vm = new Vue({
-    el: '#financeApp',
-    data: {
-        name: "",
-        type: "",
-        showList: true,
-        title: "标题-nas盘",
-        financeHisIncrementRule: {
-            firstText: "每",
-            lastText: "个刷1个"
-        }
-    },
-    methods: {}
-})
+//const vm = new Vue({
+//    el: '#financeApp',
+//    data: {
+//        name: "",
+//        type: "",
+//        showList: true,
+//        title: "标题-nas盘",
+//        financeHisIncrementRule: {
+//            firstText: "每",
+//            lastText: "个刷1个"
+//        }
+//    },
+//    methods: {}
+//})
+
+
+
 
 function getFileList(filePath) {
     $.ajax(
@@ -39,7 +42,7 @@ function getFileList(filePath) {
 
 function getFiles(filePath) {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'nas/getChild',
+        url: 'http://localhost:8090/nas/getChild',
         mtype: "POST",
         ajaxGridOptions: {
             contentType: "application/json",
@@ -119,7 +122,7 @@ function getChildFiles(filePath) {
     console.log('refresh filePath=' + filePath);
     // $("#jqGrid").jqGrid('clearGridData');// 清空数据
     $("#jqGrid").jqGrid('setGridParam', {
-        url: baseURL + 'nas/getChild',
+        url: 'http://localhost:8090/nas/getChild',
         page: page,
         rows: rows,
         order: sort,

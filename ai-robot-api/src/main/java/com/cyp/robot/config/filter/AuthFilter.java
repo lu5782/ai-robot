@@ -31,34 +31,37 @@ public class AuthFilter implements Filter {
         excludeList.add("/nas/upload");
         excludeList.add("/nas/getChild");
         excludeList.add("/nas/upload");
+        excludeList.add("/download");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest servletRequest = (HttpServletRequest) request;
-        String requestURI = servletRequest.getRequestURI();
-        if (excludeList.contains(requestURI) || requestURI.endsWith(".css")) {
-            chain.doFilter(request, response);
-            return;
-        }
-
-        String token = null;
-        if (servletRequest.getCookies() != null) {
-            for (Cookie cookie : servletRequest.getCookies())
-                if (cookie.getName().equals(cookieName)) {
-                    token = cookie.getValue();
-                    break;
-                }
-        }
-
-        if (token == null) {
-            JwtUtils.jwtError(response);
-            return;
-        }
-
-        if (JwtUtils.verifyJwt(token)) {
-            JwtUtils.createJwt((HttpServletResponse) response);
-        }
+//        String requestURI = servletRequest.getRequestURI();
+//        if (excludeList.contains(requestURI) || requestURI.endsWith(".css") || requestURI.endsWith(".js")
+//                || requestURI.startsWith("/fonts") || requestURI.startsWith("/frame")
+//                || requestURI.startsWith("/favicon") || requestURI.startsWith("/libs")) {
+//            chain.doFilter(request, response);
+//            return;
+//        }
+//
+//        String token = null;
+//        if (servletRequest.getCookies() != null) {
+//            for (Cookie cookie : servletRequest.getCookies())
+//                if (cookie.getName().equals(cookieName)) {
+//                    token = cookie.getValue();
+//                    break;
+//                }
+//        }
+//
+//        if (token == null) {
+//            JwtUtils.jwtError(response);
+//            return;
+//        }
+//
+//        if (JwtUtils.verifyJwt(token)) {
+//            JwtUtils.createJwt((HttpServletResponse) response);
+//        }
         chain.doFilter(request, response);
     }
 

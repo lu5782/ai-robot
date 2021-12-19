@@ -2,6 +2,7 @@ package com.cyp.robot.api.controller;
 
 import lombok.extern.slf4j.Slf4j;;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -21,6 +22,12 @@ public class IndexController {
     @RequestMapping("/nas")
     public String nas() {
         return "nas";
+    }
+
+    @RequestMapping("/nas2")
+    public String nas2(Model model) {
+        model.addAttribute("msg", "springboot集成thymeleaf");
+        return "nas2";
     }
 
     @RequestMapping("/websocket01")
