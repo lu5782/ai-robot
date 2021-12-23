@@ -40,6 +40,9 @@ import java.util.*;
 public class NasController {
 
 
+    private static final String file_type_dir = "dir";
+    private static final String file_type_file = "file";
+
     /**
      * 文件限制大小不超过 10M
      *
@@ -117,7 +120,7 @@ public class NasController {
         List<String> child = new ArrayList<>();
 
         JSONArray list = new JSONArray();
-        list.add(getDefaultFile(pathName));
+        list.add(getDefaultFile(filePath));
 
         String message;
         if (!file.exists()) {
@@ -130,9 +133,9 @@ public class NasController {
                 child.add(f.getName());
                 JSONObject dto = new JSONObject();
                 dto.put("name", f.getName());
-                dto.put("parentName",pathName);
+                dto.put("parentName", filePath);
                 dto.put("updateDate", DateUtil.timestamp2Str(f.lastModified()));
-                dto.put("type", f.isDirectory() ? "dir" : "file");
+                dto.put("type", f.isDirectory() ? file_type_dir : file_type_file);
                 dto.put("size", getSize(f));
                 dto.put("updateBy", "lyj");
                 list.add(dto);
@@ -156,12 +159,12 @@ public class NasController {
     private JSONObject getDefaultFile(String pathName) {
         JSONObject dto = new JSONObject();
         dto.put("name", "...");
-        dto.put("parentName",pathName);
+        dto.put("parentName", pathName);
+        dto.put("type", "");
         return dto;
     }
 
     private static String getSize(File f) {
-
         long size = getDirectoryAndFileSize(f);
 
         int level = 1;
@@ -217,10 +220,10 @@ public class NasController {
         String pathName = Constants.TEMP_DIR + File.separator + filePath;
         File file;
         switch (fileType) {
-            case "directory":
+            case file_type_dir:
                 file = new File(pathName);
                 break;
-            case "file":
+            case file_type_file:
             default:
                 file = new File(pathName).getParentFile();
                 break;
