@@ -1,4 +1,4 @@
-package com.cyp.robot.api.test.thread;
+package com.cyp.robot.test.thread;
 
 import java.sql.Timestamp;
 import java.util.concurrent.Callable;

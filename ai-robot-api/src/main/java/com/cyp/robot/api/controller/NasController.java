@@ -1,33 +1,29 @@
 package com.cyp.robot.api.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cyp.robot.api.common.Constants;
+import com.cyp.robot.api.dto.NasDto;
+import com.cyp.robot.api.dto.ResultDto;
 import com.cyp.robot.utils.DateUtil;
 import com.cyp.robot.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Author :        luyijun
@@ -40,14 +36,13 @@ import java.util.*;
 public class NasController {
 
 
+    private static final String user = "lyj";
     private static final String file_type_dir = "dir";
     private static final String file_type_file = "file";
+    private static final String file_type_other = "other";
 
     /**
      * 文件限制大小不超过 10M
-     *
-     * @param fileName
-     * @param filePath
      */
     @RequestMapping("/upload")
     private List<String> upload(@RequestParam("file") MultipartFile[] fileName, @RequestParam(required = false) String filePath, HttpServletRequest request) {
@@ -58,7 +53,7 @@ public class NasController {
         List<MultipartFile> files = multipartHttpServletRequest.getFiles("file");
 
         for (MultipartFile multipartFile : fileName) {
-//            log.info("上传文件最大10M，文件= {} size= {} 是否超过= {}", multipartFile.getName(), multipartFile.getOriginalFilename(), (multipartFile.getSize() > 10485760));
+            log.info("上传文件最大10M，文件= {} size= {} 是否超过= {}", multipartFile.getName(), multipartFile.getOriginalFilename(), (multipartFile.getSize() > 10485760));
 //            if (multipartFile.getSize() > 10485760)
 //                continue;
             String upload = FileUtils.uploadMultipartFile(multipartFile, filePath);
@@ -82,13 +77,6 @@ public class NasController {
         FileUtils.copyFile(src, dist);
     }
 
-    public String date2String() {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        String format = now.format(formatter);
-        return format;
-    }
-
 
     @RequestMapping("/getChild")
     private Object getChild(@RequestBody String params, HttpServletRequest request) {
@@ -101,26 +89,26 @@ public class NasController {
                     map.put(arr[0], URLDecoder.decode(arr[1], "utf-8"));
                 } catch (Exception e) {
                     log.info("URLDecoder.decode 异常 arr= {}", Arrays.toString(arr), e);
-//                    e.printStackTrace();
                 }
             }
         }
         String filePath = StringUtils.isEmpty(map.getString("filePath")) ? "/" : map.getString("filePath");
         int page = map.getInteger("page") == null ? 1 : map.getInteger("page");
         int rows = map.getInteger("rows") == null ? 10 : map.getInteger("rows");
-        String sort = map.getString("sort");
 
-
-        if ("...".equals(filePath)) {
-
+        String pathName;
+        if (filePath.startsWith(Constants.TEMP_DIR)) {
+            pathName = filePath;
+        } else {
+            pathName = Constants.TEMP_DIR + File.separator + filePath;
         }
 
-        String pathName = Constants.TEMP_DIR + File.separator + filePath;
         File file = new File(pathName);
-        List<String> child = new ArrayList<>();
 
-        JSONArray list = new JSONArray();
-        list.add(getDefaultFile(filePath));
+        ArrayList<NasDto> nasDtoList = new ArrayList<>();
+        String parentPath = file.getParent();
+
+        nasDtoList.add(getDefaultFile(parentPath));
 
         String message;
         if (!file.exists()) {
@@ -129,39 +117,48 @@ public class NasController {
             message = "不是文件目录";
         } else {
             File[] files = file.listFiles();
-            for (File f : files) {
-                child.add(f.getName());
-                JSONObject dto = new JSONObject();
-                dto.put("name", f.getName());
-                dto.put("parentName", filePath);
-                dto.put("updateDate", DateUtil.timestamp2Str(f.lastModified()));
-                dto.put("type", f.isDirectory() ? file_type_dir : file_type_file);
-                dto.put("size", getSize(f));
-                dto.put("updateBy", "lyj");
-                list.add(dto);
+            if (files != null) {
+                for (File f : files) {
+                    NasDto nasDto = new NasDto();
+                    nasDto.setName(f.getName());
+                    nasDto.setDir(f.getPath());
+                    nasDto.setParentName(parentPath);
+                    nasDto.setCreateDate(DateUtil.timestamp2Str(f.lastModified()));
+                    nasDto.setUpdateDate(DateUtil.timestamp2Str(f.lastModified()));
+                    nasDto.setUpdateBy(user);
+                    nasDto.setType(f.isDirectory() ? file_type_dir : file_type_file);
+                    nasDto.setSize(getSize(f));
+                    nasDtoList.add(nasDto);
+                }
             }
+            int start = (page - 1) * rows;
+            int end = Math.min(page * rows, nasDtoList.size());
+            log.info("数据总共 {} 条，返回的开始下标= {} 结束下标= {}", nasDtoList.size(), start, end);
+
+            List<NasDto> responseData = nasDtoList.subList(start, end);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("list", responseData);
+            jsonObject.put("page", page);
+            jsonObject.put("totalPage", nasDtoList.size() % rows == 0 ? nasDtoList.size() / rows : nasDtoList.size() / rows + 1);
+            jsonObject.put("totalCount", nasDtoList.size());
+            ResultDto<Object> resultDto = new ResultDto<>();
+            return jsonObject;
         }
-
-        int start = (page - 1) * rows;
-        int end = Math.min(page * rows, list.size());
-//        log.info("数据总共 {} 条，返回的开始下标= {} 结束下标= {}", list.size(), start, end);
-
-        List<Object> responseData = list.subList(start, end);
-//        responseData.add(0, getDefaultFile());
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("list", responseData);
-        jsonObject.put("page", page);
-        jsonObject.put("totalPage", list.size() % rows == 0 ? list.size() / rows : list.size() / rows + 1);
-        jsonObject.put("totalCount", list.size());
-        return jsonObject;
+        System.out.println("hashCode= " + ResultDto.fail().hashCode());
+        return ResultDto.fail(message);
     }
 
-    private JSONObject getDefaultFile(String pathName) {
-        JSONObject dto = new JSONObject();
-        dto.put("name", "...");
-        dto.put("parentName", pathName);
-        dto.put("type", "");
-        return dto;
+    private NasDto getDefaultFile(String parentPath) {
+        NasDto nasDto = new NasDto();
+        nasDto.setName("...");
+        nasDto.setDir("");
+        nasDto.setParentName(parentPath);
+        nasDto.setCreateDate(null);
+        nasDto.setUpdateDate(null);
+        nasDto.setUpdateBy(user);
+        nasDto.setType(file_type_other);
+        nasDto.setSize(null);
+        return nasDto;
     }
 
     private static String getSize(File f) {
@@ -204,9 +201,12 @@ public class NasController {
             size += f.length();
         } else {
             File[] files = f.listFiles();
-            for (File file : files) {
-                size += getDirectoryAndFileSize(file);
+            if (files != null) {
+                for (File file : files) {
+                    size += getDirectoryAndFileSize(file);
+                }
             }
+
         }
         return size;
     }
@@ -241,86 +241,5 @@ public class NasController {
         return child;
     }
 
-
-    @Resource
-    private RestTemplate restTemplate;
-
-    @RequestMapping("/getIdiom")
-    private void getIdiom() {
-        //============================采集百度成语============================
-        String filePathName = Constants.TEMP_DIR + "/" + "成语.txt";
-        int i = 0;
-        String url = "https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?resource_id=28204" +
-                "&query=成语大全" +
-                "&pn=" + i +
-                "&rn=30";
-
-        while (true) {
-            log.info("=================采集百度成语第 {} 轮=================", i);
-            RestTemplate restTemplate = new RestTemplate();
-            JSONObject forObject = restTemplate.getForObject(url, JSONObject.class);
-            System.out.println("forObject = " + forObject);
-            assert forObject != null;
-            JSONArray data = forObject.getJSONArray("data");
-
-
-            if (data == null) {
-                break;
-            }
-
-            JSONObject jsonObject = data.getJSONObject(0);
-            JSONArray result = jsonObject.getJSONArray("result");
-
-            ArrayList<String> arrayList = new ArrayList<>();
-            result.forEach(e -> {
-                JSONObject jsonObject1 = JSONObject.parseObject(e.toString());
-                String ename = jsonObject1.getString("ename");
-                String jumplink = jsonObject1.getString("jumplink");
-                String newJumplink = null;
-                try {
-                    newJumplink = URLDecoder.decode(jumplink, "utf-8");
-                } catch (UnsupportedEncodingException unsupportedEncodingException) {
-                    unsupportedEncodingException.printStackTrace();
-                }
-
-//                log.info(ename + "," + newJumplink);
-                arrayList.add(ename + "," + newJumplink);
-            });
-            save(filePathName, arrayList);
-            i++;
-        }
-
-        //============================采集百度成语============================
-    }
-
-
-    //在文件最后追加数据
-    private static void save(String filePathName, List<String> sourceList) {
-        BufferedWriter bufferedWriter = null;
-        try {
-            //文件最后追加数据
-            bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(filePathName), true), StandardCharsets.UTF_8));
-            for (String source : sourceList) {
-                //每次另起一行追加数据
-                bufferedWriter.newLine();
-                bufferedWriter.write(source);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            IOUtils.closeQuietly(bufferedWriter);
-        }
-    }
-
-
-    public static void main(String[] args) {
-        String pathName = Constants.TEMP_DIR + File.separator + "a";
-        File file = new File(pathName);
-        boolean file1 = file.isFile();
-        boolean directory = file.isDirectory();
-        File[] files = file.listFiles();
-        file.mkdirs();
-
-    }
 
 }

@@ -4,12 +4,10 @@ public class Constants {
 
 
     public static final String POINT = ".";
-    //文件根目录
-    public static final String ROOT_DIR = "D:\\";
-    public static final String TEMP_DIR = ROOT_DIR + "/temp";
-    public static final String UPLOAD_DIR = ROOT_DIR + "/upload";
-    public static final String DOWNLOAD_DIR = ROOT_DIR + "/download";
-    public static final String PICTURE_SOURCE = ROOT_DIR + "/我的文件/8k/png-001.png";
+    public static final String TEMP_DIR = "\\temp";
+    public static final String UPLOAD_DIR = "\\upload";
+    public static final String DOWNLOAD_DIR = "\\download";
+    public static final String PICTURE_SOURCE = "\\我的文件\\8k\\png-001.png";
 
     //逻辑删除状态  1：有效， -1：无效
     public static final int IS_DELETED_1 = 1;

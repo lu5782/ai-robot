@@ -1,4 +1,4 @@
-package com.cyp.robot.api.test.proxy;
+package com.cyp.robot.test.proxy;
 
 
 public class ArithmeticImpl implements Arithmetic {

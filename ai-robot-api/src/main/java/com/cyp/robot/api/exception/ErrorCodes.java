@@ -1,4 +1,4 @@
-package com.cyp.robot.api.common.exception;
+package com.cyp.robot.api.exception;
 
 public enum ErrorCodes {
 

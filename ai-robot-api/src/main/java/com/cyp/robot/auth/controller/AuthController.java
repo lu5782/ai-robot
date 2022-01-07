@@ -3,7 +3,7 @@ package com.cyp.robot.auth.controller;
 
 import com.cyp.po.UserInfo;
 import com.cyp.robot.auth.service.AuthService;
-import com.cyp.robot.api.common.dto.ResultDto;
+import com.cyp.robot.api.dto.ResultDto;
 import com.cyp.robot.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +40,7 @@ public class AuthController {
         if (flag) {
             return new ResultDto<>(ResultDto.SUCCESS_CODE, ResultDto.SUCCESS_MESSAGE, null);
         } else {
-            return new ResultDto<>(ResultDto.ERROR_CODE, "用户名、邮箱或手机号已经存在", null);
+            return new ResultDto<>(ResultDto.FAIL_CODE, "用户名、邮箱或手机号已经存在", null);
         }
     }
 
@@ -53,7 +53,7 @@ public class AuthController {
             JwtUtils.createJwt(response);
             return new ResultDto<>(ResultDto.SUCCESS_CODE, ResultDto.SUCCESS_MESSAGE, null);
         } else {
-            return new ResultDto<>(ResultDto.ERROR_CODE, "用户名或密码错误", null);
+            return new ResultDto<>(ResultDto.FAIL_CODE, "用户名或密码错误", null);
         }
     }
 

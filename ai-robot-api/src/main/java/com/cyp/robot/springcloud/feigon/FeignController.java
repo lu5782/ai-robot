@@ -1,6 +1,5 @@
-package com.cyp.robot.api.springcloud.feigon;
+package com.cyp.robot.springcloud.feigon;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

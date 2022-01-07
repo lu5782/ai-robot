@@ -1,4 +1,4 @@
-package com.cyp.robot.api.common.dto;
+package com.cyp.robot.api.dto;
 
 /**
  * @description

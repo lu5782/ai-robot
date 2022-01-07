@@ -1,6 +1,5 @@
-package com.cyp.robot.api.springcloud.ribbon;
+package com.cyp.robot.springcloud.ribbon;
 
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;

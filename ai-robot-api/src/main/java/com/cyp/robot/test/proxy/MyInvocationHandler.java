@@ -1,4 +1,4 @@
-package com.cyp.robot.api.test.proxy;
+package com.cyp.robot.test.proxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

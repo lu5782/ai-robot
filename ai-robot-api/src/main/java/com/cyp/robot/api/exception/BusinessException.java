@@ -1,6 +1,6 @@
-package com.cyp.robot.api.common.exception;
+package com.cyp.robot.api.exception;
 
-import com.cyp.robot.api.common.dto.ResultDto;
+import com.cyp.robot.api.dto.ResultDto;
 import org.apache.log4j.Logger;
 
 

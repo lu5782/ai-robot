@@ -35,10 +35,10 @@ public class FileUtils {
         }
 
         String distFilePath;
-        if (!StringUtils.isEmpty(filePath)) {
-            distFilePath = Constants.ROOT_DIR + File.separator + filePath;
-        } else {
+        if (StringUtils.isEmpty(filePath)) {
             distFilePath = Constants.TEMP_DIR;
+        } else {
+            distFilePath = filePath;
         }
         String distFileName = distFilePath + File.separator + fileName.getOriginalFilename();
         File file = new File(distFileName);

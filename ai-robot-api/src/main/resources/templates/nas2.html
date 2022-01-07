@@ -8,14 +8,14 @@
     <script src="/libs/jquery-1.11.0.min.js"></script>
 
     <!-- import Vue before Element -->
-<!--    <script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+    <!--    <script src="https://unpkg.com/vue/dist/vue.js"></script>-->
     <script src="/libs/vue/vue.js"></script>
     <!-- import JavaScript -->
-<!--    <script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <!--    <script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
     <script src="/libs/vue/element-ui.js"></script>
 
     <!-- import CSS -->
-<!--    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <!--    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
     <link rel="stylesheet" href="/css/element-ui.css">
 
 </head>
@@ -54,19 +54,14 @@
     <el-button type="primary">移动到</el-button>
 
 
-    <!--    <div :inline="true">-->
-
-    <!--    </div>-->
     <el-input placeholder="请输入内容" style="width: 200px;padding-left: 50px" :inline="true"></el-input>
     <el-button type="primary" icon="el-icon-search" :inline="true">搜索</el-button>
 
 
-    <el-table :data="tableData" key="Math.random()" @row-click="click"
+    <el-table :data="tableData" :key="Math.random()" @row-click="click"
               @row-contextmenu="rightClick" stripe style="width: 100%">
-        <el-table-column prop="folder" label="" width="80">
+        <el-table-column prop="type" label="" width="80">
             <i class="el-icon-folder"></i>
-        </el-table-column>
-        <el-table-column prop="document" label="" width="80">
             <i class="el-icon-document"></i>
         </el-table-column>
         <el-table-column prop="name" label="名称"></el-table-column>
@@ -99,6 +94,7 @@
             tableData: [],
             menuVisible: false,
             input: null,
+            key: null,
         },
         mounted: function () {
             this.getChildFiles('/');
@@ -129,9 +125,8 @@
                         dataType: 'json', // 返回数据的格式, 通常为JSON
                         contentType: 'application/json',
                         success: function (response) { // 请求成功后的回调函数
-                            console.log("Send Request success response=  " + JSON.stringify(response));
+                            // console.log("Send Request success response=  " + JSON.stringify(response));
                             self.tableData = response.list;
-                            <!--                        console.log("tableData=  " + JSON.stringify(self.tableData));-->
                         },
                         error: function (response) {
                             console.log('Send Request Fail..' + JSON.stringify(response)); // 请求失败时的回调函数
@@ -145,7 +140,8 @@
             click(row) {
                 console.log("click= " + JSON.stringify(row));
                 if (row.type === 'dir') {
-                    console.log("row.parentName= " + row.parentName);
+                    this.getChildFiles(row.name);
+                }else if (row.type === 'other') {
                     this.getChildFiles(row.parentName);
                 }
             },
