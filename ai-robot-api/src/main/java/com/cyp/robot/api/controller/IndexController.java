@@ -19,15 +19,11 @@ public class IndexController {
         return "clock";
     }
 
-    @RequestMapping("/nas")
-    public String nas() {
-        return "nas";
-    }
 
-    @RequestMapping("/nas2")
+    @RequestMapping("/nas")
     public String nas2(Model model) {
         model.addAttribute("msg", "springboot集成thymeleaf");
-        return "nas2";
+        return "nas";
     }
 
     @RequestMapping("/websocket01")

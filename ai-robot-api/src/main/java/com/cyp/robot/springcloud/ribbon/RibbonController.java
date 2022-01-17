@@ -1,10 +1,11 @@
 package com.cyp.robot.springcloud.ribbon;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import javax.annotation.Resource;
 
 /**
  * Created by luyijun on 2020/3/9 11:09.
@@ -12,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class RibbonController {
 
-    @Autowired
+    @Resource
     RestTemplate restTemplate;
 
     @RequestMapping("/ribbon")
