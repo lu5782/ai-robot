@@ -23,27 +23,34 @@ public class IdiomController {
 
     @Resource
     private RestTemplate restTemplate;
+    List<String> existsList = new ArrayList<>();
 
     @RequestMapping("/getIdiom")
     private void getIdiom() {
-        //============================采集百度成语============================
-        String filePathName = Constants.TEMP_DIR + "/" + "成语.txt";
+        String filePathName = Constants.TEMP_DIR + "/" + "idiom.txt";
         int i = 0;
-        String url = "https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?resource_id=28204" +
-                "&query=成语大全" +
-                "&pn=" + i +
-                "&rn=30";
-
+        String url = String.format("https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?resource_id=28204&query=成语大全&pn=%s&rn=30", i);
         while (true) {
             log.info("=================采集百度成语第 {} 轮=================", i);
-            RestTemplate restTemplate = new RestTemplate();
-            JSONObject forObject = restTemplate.getForObject(url, JSONObject.class);
-            System.out.println("forObject = " + forObject);
-            assert forObject != null;
-            JSONArray data = forObject.getJSONArray("data");
+//            RestTemplate restTemplate = new RestTemplate();
+            JSONObject resultObj;
+            try {
+                String result = restTemplate.getForObject(url, String.class);
+                log.info("result :{}", result);
+                resultObj = JSONObject.parseObject(result);
+            } catch (Exception e) {
+                log.error("采集百度成语 Exception,message:{}", e.getMessage(), e);
+                continue;
+            }
 
+            if (resultObj == null) {
+                log.error("resultObj is null");
+                break;
+            }
 
+            JSONArray data = resultObj.getJSONArray("data");
             if (data == null) {
+                log.error("data is null");
                 break;
             }
 
@@ -62,14 +69,15 @@ public class IdiomController {
                     unsupportedEncodingException.printStackTrace();
                 }
 
-//                log.info(ename + "," + newJumplink);
-                arrayList.add(ename + "," + newJumplink);
+//                log.info("ename:{}, newJumplink:{}", ename, newJumplink);
+                //重复的不处理
+                if (!existsList.contains(ename)) {
+                    arrayList.add(ename + "," + newJumplink);
+                }
             });
             save(filePathName, arrayList);
             i++;
         }
-
-        //============================采集百度成语============================
     }
 
 

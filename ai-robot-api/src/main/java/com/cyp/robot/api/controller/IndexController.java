@@ -36,10 +36,6 @@ public class IndexController {
         return "webSocket02";
     }
 
-    @RequestMapping("/financehisincrementrule")
-    public String financehisincrementrule() {
-        return "financehisincrementrule";
-    }
 
 
 }

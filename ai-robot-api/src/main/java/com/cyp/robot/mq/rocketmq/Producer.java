@@ -1,4 +1,4 @@
-package com.cyp.robot.mq;
+package com.cyp.robot.mq.rocketmq;
 
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
